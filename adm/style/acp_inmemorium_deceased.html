@@ -1,0 +1,89 @@
+{% include 'overall_header.html' %}
+
+<h1>{{ lang('ACP_INMEMORIUM_DECEASED') }}</h1>
+
+<p>{{ lang('ACP_INMEMORIUM_DECEASED_EXPLAIN') }}</p>
+
+<form id="inmemorium" method="post" action="{{ U_ACTION }}">
+
+<fieldset>
+	<legend>{{ lang('ACP_INMEMORIUM_MARK_DECEASED') }}</legend>
+
+	<dl>
+		<dt>
+			<label for="username">{{ lang('ACP_INMEMORIUM_USERNAME') }}{{ lang('COLON') }}</label>
+			<span>{{ lang('ACP_INMEMORIUM_USERNAME_EXPLAIN') }}</span>
+		</dt>
+		<dd>
+			<input type="text" id="username" name="username" value="" class="inputbox" autocomplete="off">
+			<span>[ <a href="{{ U_FIND_USER }}" onclick="find_username(this.href); return false;">{{ lang('FIND_USERNAME') }}</a> ]</span>
+		</dd>
+	</dl>
+
+	<dl>
+		<dt>
+			<label for="death_date">{{ lang('ACP_INMEMORIUM_DEATH_DATE') }}{{ lang('COLON') }}</label>
+			<span>{{ lang('ACP_INMEMORIUM_DEATH_DATE_EXPLAIN') }}</span>
+		</dt>
+		<dd><input type="date" id="death_date" name="death_date" value="" class="inputbox"></dd>
+	</dl>
+
+	<dl>
+		<dt>
+			<label for="memorial_text">{{ lang('ACP_INMEMORIUM_MEMORIAL_TEXT') }}{{ lang('COLON') }}</label>
+			<span>{{ lang('ACP_INMEMORIUM_MEMORIAL_TEXT_EXPLAIN') }}</span>
+		</dt>
+		<dd><textarea id="memorial_text" name="memorial_text" rows="4" cols="60" class="inputbox"></textarea></dd>
+	</dl>
+
+	<dl>
+		<dt>
+			<label for="banner_color">{{ lang('ACP_INMEMORIUM_BANNER_COLOR') }}{{ lang('COLON') }}</label>
+			<span>{{ lang('ACP_INMEMORIUM_BANNER_COLOR_EXPLAIN') }}</span>
+		</dt>
+		<dd><input type="color" id="banner_color" name="banner_color" value="{{ DEFAULT_COLOR }}"></dd>
+	</dl>
+
+	<p class="submit-buttons">
+		<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}">
+		<input class="button2" type="reset" value="{{ lang('RESET') }}">
+	</p>
+
+	{{ S_FORM_TOKEN }}
+</fieldset>
+</form>
+
+<fieldset class="tabulated">
+	<legend>{{ lang('ACP_INMEMORIUM_LIST') }}</legend>
+
+	<table class="table1">
+	<thead>
+		<tr>
+			<th>{{ lang('ACP_INMEMORIUM_USERNAME') }}</th>
+			<th style="width: 15%;">{{ lang('ACP_INMEMORIUM_DEATH_DATE') }}</th>
+			<th style="width: 10%;">{{ lang('ACP_INMEMORIUM_BANNER_COLOR') }}</th>
+			<th style="width: 10%;">{{ lang('ACP_INMEMORIUM_ACTIONS') }}</th>
+		</tr>
+	</thead>
+	<tbody>
+	{% for row in deceased %}
+		<tr class="{{ loop.index is odd ? 'bg1' : 'bg2' }}">
+			<td>{{ row.USERNAME_FULL }}</td>
+			<td style="text-align: center;">{{ row.DEATH_DATE ?: '-' }}</td>
+			<td style="text-align: center;">
+				<span style="display:inline-block;width:20px;height:20px;border:1px solid #666;background-color:{{ row.BANNER_COLOR }};"></span>
+			</td>
+			<td style="text-align: center;">
+				<a href="{{ row.U_DELETE }}">{{ lang('ACP_INMEMORIUM_REMOVE') }}</a>
+			</td>
+		</tr>
+	{% else %}
+		<tr class="bg1">
+			<td colspan="4" style="text-align: center;">{{ lang('ACP_INMEMORIUM_NO_DECEASED') }}</td>
+		</tr>
+	{% endfor %}
+	</tbody>
+	</table>
+</fieldset>
+
+{% include 'overall_footer.html' %}

@@ -1,0 +1,225 @@
+/**
+ * In Memoriam - feuille de style
+ * Volontairement neutre pour rester compatible avec tous les thèmes.
+ */
+
+.inmemorium-banner {
+	display: flex;
+	flex-direction: column;
+	align-items: center;      /* centrage horizontal */
+	justify-content: center;  /* centrage vertical   */
+	min-height: 160px;
+	padding: 24px 20px;
+	margin: 0 0 15px 0;
+	border-radius: 4px;
+	text-align: center;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, .25);
+	/* Le fond vient d'un style en ligne (couleur choisie par l'administrateur).
+	   La couleur du texte est forcee : sans cela, le theme du forum reprend
+	   la main et le texte reste sombre sur fond sombre. */
+	color: #ffffff !important;
+}
+
+.inmemorium-banner a,
+.inmemorium-banner strong,
+.inmemorium-banner span,
+.inmemorium-banner div {
+	color: #ffffff !important;
+}
+
+.inmemorium-icon {
+	font-size: 44px;
+	line-height: 1;
+	margin-bottom: 12px;
+	opacity: .9;
+}
+
+.inmemorium-text {
+	font-size: 1em;
+	line-height: 1.6;
+	width: 100%;
+}
+
+.inmemorium-text strong {
+	display: block;
+	font-size: 1.35em;
+	text-transform: uppercase;
+	letter-spacing: 3px;
+	margin-bottom: 10px;
+}
+
+.inmemorium-death-date {
+	display: block;
+	font-style: italic;
+	opacity: .9;
+}
+
+.inmemorium-memorial-text {
+	display: block;
+	max-width: 600px;
+	margin: 12px auto 0;
+	padding-top: 12px;
+	font-style: italic;
+	opacity: .95;
+	border-top: 1px solid rgba(255, 255, 255, .25);
+}
+
+/* --- Bandeau en travers, pose sur l'avatar du mini-profil --- */
+
+/* Le bandeau ne doit apparaitre qu'a un seul endroit : sur l'avatar du
+   mini-profil. phpBB rend le point d'ancrage a plusieurs emplacements selon
+   la mise en page, et un fichier laisse par une version anterieure pourrait
+   en produire d'autres. On masque donc par defaut, et on n'affiche que dans
+   le contexte voulu. */
+.inmemorium-ribbon,
+.inmemorium-ribbon-wrap,
+.inmemorium-post-badge {
+	display: none;
+}
+
+/* Le bandeau est place par l'evenement viewtopic_body_avatar_after, donc
+   a l'interieur de .avatar-container. On ancre ce conteneur pour pouvoir
+   positionner le bandeau par-dessus l'image. */
+.postprofile .avatar-container {
+	position: relative;
+	overflow: hidden;
+}
+
+.postprofile .avatar-container .inmemorium-ribbon {
+	display: block;
+	position: absolute;
+	top: 50%;
+	left: -25%;
+	width: 150%;
+	margin-top: -11px;        /* recentre sur la moitie de sa hauteur */
+	transform: rotate(-12deg);
+	background: rgba(0, 0, 0, .88);
+	color: #ffffff;
+	text-align: center;
+	font-size: 11px;
+	font-weight: bold;
+	line-height: 22px;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	white-space: nowrap;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, .5);
+	pointer-events: none;     /* ne gene pas le clic sur l'avatar */
+}
+
+.postprofile .avatar-container .inmemorium-ribbon::before {
+	content: '\2720\00a0';
+}
+
+/* Sans avatar, le conteneur peut etre absent ou tres plat : on garantit
+   une hauteur minimale pour que le bandeau reste lisible. */
+.postprofile .avatar-container:empty {
+	min-height: 0;
+}
+
+
+
+@media (max-width: 700px) {
+	.inmemorium-icon {
+		font-size: 32px;
+	}
+
+	.inmemorium-text strong {
+		font-size: 1.1em;
+		letter-spacing: 1px;
+	}
+}
+
+
+/* Codes de securite et cles de reference */
+.inmemorium-key {
+	display: inline-block;
+	padding: 6px 12px;
+	font-family: ui-monospace, Menlo, Consolas, monospace;
+	font-size: 1.2em;
+	letter-spacing: 2px;
+	background: #f4f6f8;
+	border: 1px solid #c8d0d8;
+	border-radius: 3px;
+}
+
+.inmemorium-code-input {
+	font-family: ui-monospace, Menlo, Consolas, monospace;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+}
+
+/* --- Fiche de validation et QR code --- */
+.inmemorium-sheet-head {
+	border-bottom: 2px solid #333;
+	padding-bottom: 10px;
+	margin-bottom: 16px;
+}
+
+.inmemorium-sheet-head h3 {
+	margin: 0 0 6px;
+}
+
+.inmemorium-sheet-body {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 24px;
+	align-items: flex-start;
+}
+
+.inmemorium-sheet-key {
+	flex: 1 1 260px;
+}
+
+.inmemorium-sheet-qr {
+	flex: 0 0 auto;
+	text-align: center;
+}
+
+.inmemorium-label {
+	display: block;
+	font-weight: bold;
+	margin-bottom: 6px;
+}
+
+.inmemorium-hint {
+	font-size: .85em;
+	opacity: .8;
+	margin-top: 8px;
+}
+
+.inmemorium-mobile-switch {
+	margin-top: 24px;
+	padding-top: 16px;
+	border-top: 1px solid rgba(0, 0, 0, .12);
+	text-align: center;
+}
+
+.inmemorium-mobile-switch div {
+	display: inline-block;
+}
+
+/* Le canvas doit rester net : pas de lissage a l'agrandissement. */
+[data-inmemorium-qr] canvas {
+	image-rendering: pixelated;
+	image-rendering: crisp-edges;
+	max-width: 100%;
+	height: auto;
+	background: #fff;
+}
+
+/* Les regles d'impression ne peuvent pas vivre ici : phpBB injecte les
+   feuilles d'extension avec media="screen, projection", si bien qu'un bloc
+   @media print n'y serait jamais lu. Elles sont posees en ligne dans le
+   template de la fiche de validation. */
+
+/* Repli affiche tant que le QR n'a pas ete genere, ou si le navigateur
+   n'execute pas le script : l'adresse reste alors lisible et recopiable. */
+.inmemorium-qr-fallback {
+	display: inline-block;
+	max-width: 260px;
+	font-family: ui-monospace, Menlo, Consolas, monospace;
+	font-size: .75em;
+	line-height: 1.4;
+	word-break: break-all;
+	color: #444;
+}

@@ -1,0 +1,63 @@
+{% include 'ucp_header.html' %}
+
+<h2>{{ lang('UCP_INMEMORIUM_LEGACY') }}</h2>
+
+<form id="inmemorium_ucp" method="post" action="{{ S_UCP_ACTION }}">
+<div class="panel">
+	<div class="inner">
+
+		<p>{{ lang('UCP_INMEMORIUM_EXPLAIN') }}</p>
+
+		{% if ERROR %}
+			<div class="errorbox"><p>{{ ERROR }}</p></div>
+		{% endif %}
+
+		{% if S_HAS_LEGACY %}
+			<div class="successbox">
+				<p>{{ lang('UCP_INMEMORIUM_CURRENT', LEGACY_DATE) }}</p>
+			</div>
+		{% endif %}
+
+		<fieldset>
+			<dl>
+				<dt><label for="legacy_name">{{ lang('UCP_INMEMORIUM_NAME') }}{{ lang('COLON') }}</label></dt>
+				<dd><input type="text" name="legacy_name" id="legacy_name" maxlength="255" value="{{ LEGACY_NAME }}" class="inputbox"></dd>
+			</dl>
+			<dl>
+				<dt>
+					<label for="legacy_email">{{ lang('UCP_INMEMORIUM_EMAIL') }}{{ lang('COLON') }}</label>
+					<span>{{ lang('UCP_INMEMORIUM_EMAIL_EXPLAIN') }}</span>
+				</dt>
+				<dd><input type="email" name="legacy_email" id="legacy_email" maxlength="100" value="{{ LEGACY_EMAIL }}" class="inputbox"></dd>
+			</dl>
+		</fieldset>
+
+		<div class="rules">
+			<div class="inner">
+				<strong>{{ lang('UCP_INMEMORIUM_HOWTO_TITLE') }}</strong>
+				<ol>
+					<li>{{ lang('UCP_INMEMORIUM_HOWTO_1') }}</li>
+					<li>{{ lang('UCP_INMEMORIUM_HOWTO_2') }}</li>
+					<li>{{ lang('UCP_INMEMORIUM_HOWTO_3') }}</li>
+					<li>{{ lang('UCP_INMEMORIUM_HOWTO_4') }}</li>
+				</ol>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<div class="panel">
+	<div class="inner">
+		<fieldset class="submit-buttons">
+			<input type="submit" name="submit" id="submit" class="button1" value="{{ lang('SUBMIT') }}">
+			{% if S_HAS_LEGACY %}
+				<input type="submit" name="delete" id="delete" class="button2" value="{{ lang('UCP_INMEMORIUM_DELETE') }}" onclick="return confirm('{{ lang('UCP_INMEMORIUM_DELETE_CONFIRM')|e('js') }}');">
+			{% endif %}
+			{{ S_FORM_TOKEN }}
+		</fieldset>
+	</div>
+</div>
+</form>
+
+{% include 'ucp_footer.html' %}

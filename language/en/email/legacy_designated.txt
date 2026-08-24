@@ -1,0 +1,33 @@
+Subject: You have been designated as a legacy contact
+
+Hello {LEGACY_NAME},
+
+{MEMBER_NAME}, a member of the board "{SITENAME}", has designated you as
+the legacy contact for their account.
+
+In practice this means that, after their passing, you will be allowed to
+request the deletion of their account. You gain no rights over the account
+during their lifetime: you can neither sign in to it, nor modify it, nor
+read their private messages.
+
+When the time comes, the procedure will be as follows:
+
+  1. You will fill in the form at this address:
+     {REQUEST_URL}
+     giving the username {MEMBER_NAME} and this email address.
+
+  2. A security code will be sent to you here.
+
+  3. You will enter that code on the page indicated. A reference key will
+     then be shown to you.
+
+  4. An administrator will confirm that key before the deletion is
+     carried out.
+
+No action is required from you today. Simply keep this message: it
+contains the address of the form.
+
+If you believe you received this email in error, please contact
+{MEMBER_NAME} or a board administrator.
+
+{EMAIL_SIG}

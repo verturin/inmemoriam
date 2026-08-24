@@ -1,0 +1,25 @@
+Subject: Account deletion request awaiting your decision
+
+Hello,
+
+A legacy contact has just validated their security code on "{SITENAME}".
+An account deletion request is now awaiting your decision.
+
+  Account concerned : {MEMBER_NAME}
+  Legacy contact    : {LEGACY_EMAIL}
+  Validated on      : {VALIDATED_ON}
+
+To decide, go to the administration control panel:
+
+  {ACP_URL}
+
+  Extensions -> In Memoriam -> Deletion requests
+
+You will need to enter the reference key that the legacy contact will give
+you. It was shown to them after their code was validated. This second check
+ensures the request really comes from the person designated by the member.
+
+Only approve the request once you have obtained that key through a channel
+you trust, and have satisfied yourself that the death is genuine.
+
+{EMAIL_SIG}

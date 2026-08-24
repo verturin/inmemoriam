@@ -1,0 +1,25 @@
+Subject: Demande de suppression de compte - code de securite
+
+Bonjour {LEGACY_NAME},
+
+Vous avez ete designe(e) comme legataire du compte de {MEMBER_NAME} sur "{SITENAME}".
+Une demande de suppression de ce compte vient d'etre enregistree.
+
+Votre code de securite :
+
+    {SECURITY_CODE}
+
+Pour poursuivre, ouvrez la page suivante puis saisissez ce code :
+
+{VALIDATE_URL}
+
+Ce code est valable {EXPIRE_DAYS} jours. Il est strictement personnel : ne le
+communiquez a personne, pas meme a un administrateur du forum.
+
+Une fois le code saisi, une cle de reference vous sera affichee. Un
+administrateur devra la confirmer pour que la suppression soit effectuee.
+
+Si vous n'etes pas a l'origine de cette demande, ignorez ce message : aucune
+action ne sera engagee sans la saisie du code ci-dessus.
+
+{EMAIL_SIG}

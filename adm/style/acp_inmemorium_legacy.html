@@ -1,0 +1,57 @@
+{% include 'overall_header.html' %}
+
+<h1>{{ lang('ACP_INMEMORIUM_REQUESTS') }}</h1>
+
+<p>{{ lang('ACP_INMEMORIUM_REQUESTS_EXPLAIN') }}</p>
+
+<form id="inmemorium_requests" method="post" action="{{ U_ACTION }}">
+
+{% for row in requests %}
+	<fieldset>
+		<legend>{{ row.USERNAME_FULL }} &mdash; {{ row.STATUS }}</legend>
+
+		<dl>
+			<dt>{{ lang('ACP_INMEMORIUM_RQ_EMAIL') }}{{ lang('COLON') }}</dt>
+			<dd><strong>{{ row.LEGACY_EMAIL }}</strong></dd>
+		</dl>
+		<dl>
+			<dt>{{ lang('ACP_INMEMORIUM_RQ_DATE') }}{{ lang('COLON') }}</dt>
+			<dd>{{ row.REQUEST_TIME }}</dd>
+		</dl>
+		<dl>
+			<dt>{{ lang('ACP_INMEMORIUM_RQ_ATTEMPTS') }}{{ lang('COLON') }}</dt>
+			<dd>{{ row.ATTEMPTS }}</dd>
+		</dl>
+
+		{% if row.S_PENDING %}
+			<dl>
+				<dt>
+					<label for="admin_key_{{ row.ID }}">{{ lang('ACP_INMEMORIUM_RQ_KEY') }}{{ lang('COLON') }}</label>
+					<span>{{ lang('ACP_INMEMORIUM_RQ_KEY_EXPLAIN') }}</span>
+				</dt>
+				<dd>
+					<input type="text" id="admin_key_{{ row.ID }}" name="admin_key" maxlength="19"
+					       class="inputbox" autocomplete="off" placeholder="XXXX-XXXX-XXXX-XXXX">
+				</dd>
+			</dl>
+
+			<p class="submit-buttons">
+				<input type="hidden" name="request_id" value="{{ row.ID }}">
+				<button class="button1" type="submit" name="decide" value="1"
+				        onclick="this.form.decision.value='approve';">{{ lang('ACP_INMEMORIUM_RQ_APPROVE') }}</button>
+				<button class="button2" type="submit" name="decide" value="1"
+				        onclick="this.form.decision.value='refuse';">{{ lang('ACP_INMEMORIUM_RQ_REFUSE') }}</button>
+			</p>
+		{% endif %}
+	</fieldset>
+{% else %}
+	<fieldset>
+		<p>{{ lang('ACP_INMEMORIUM_RQ_NONE') }}</p>
+	</fieldset>
+{% endfor %}
+
+<input type="hidden" name="decision" value="">
+{{ S_FORM_TOKEN }}
+</form>
+
+{% include 'overall_footer.html' %}

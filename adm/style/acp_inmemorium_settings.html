@@ -1,0 +1,141 @@
+{% include 'overall_header.html' %}
+
+<h1>{{ lang('ACP_INMEMORIUM_SETTINGS') }}</h1>
+
+<p>{{ lang('ACP_INMEMORIUM_SETTINGS_EXPLAIN') }}</p>
+
+<form id="inmemorium_settings" method="post" action="{{ U_ACTION }}">
+<fieldset>
+	<legend>{{ lang('ACP_INMEMORIUM_SETTINGS') }}</legend>
+
+	<dl>
+		<dt>
+			<label for="inmemorium_enabled">{{ lang('ACP_INMEMORIUM_ENABLE') }}{{ lang('COLON') }}</label>
+			<span>{{ lang('ACP_INMEMORIUM_ENABLE_EXPLAIN') }}</span>
+		</dt>
+		<dd>
+			<label><input type="radio" class="radio" name="inmemorium_enabled" value="1"{% if INMEMORIUM_ENABLED %} checked{% endif %}> {{ lang('YES') }}</label>
+			<label><input type="radio" class="radio" name="inmemorium_enabled" value="0"{% if not INMEMORIUM_ENABLED %} checked{% endif %}> {{ lang('NO') }}</label>
+		</dd>
+	</dl>
+
+	<dl>
+		<dt>
+			<label for="inmemorium_default_color">{{ lang('ACP_INMEMORIUM_DEFAULT_COLOR') }}{{ lang('COLON') }}</label>
+			<span>{{ lang('ACP_INMEMORIUM_DEFAULT_COLOR_EXPLAIN') }}</span>
+		</dt>
+		<dd><input type="color" id="inmemorium_default_color" name="inmemorium_default_color" value="{{ INMEMORIUM_DEFAULT_COLOR }}"></dd>
+	</dl>
+
+	<dl>
+		<dt>
+			<label for="inmemorium_show_death_date">{{ lang('ACP_INMEMORIUM_SHOW_DEATH_DATE') }}{{ lang('COLON') }}</label>
+			<span>{{ lang('ACP_INMEMORIUM_SHOW_DEATH_DATE_EXPLAIN') }}</span>
+		</dt>
+		<dd>
+			<label><input type="radio" class="radio" name="inmemorium_show_death_date" value="1"{% if INMEMORIUM_SHOW_DEATH_DATE %} checked{% endif %}> {{ lang('YES') }}</label>
+			<label><input type="radio" class="radio" name="inmemorium_show_death_date" value="0"{% if not INMEMORIUM_SHOW_DEATH_DATE %} checked{% endif %}> {{ lang('NO') }}</label>
+		</dd>
+	</dl>
+
+	<dl>
+		<dt>
+			<label for="inmemorium_show_badge">{{ lang('ACP_INMEMORIUM_SHOW_BADGE') }}{{ lang('COLON') }}</label>
+			<span>{{ lang('ACP_INMEMORIUM_SHOW_BADGE_EXPLAIN') }}</span>
+		</dt>
+		<dd>
+			<label><input type="radio" class="radio" name="inmemorium_show_badge" value="1"{% if INMEMORIUM_SHOW_BADGE %} checked{% endif %}> {{ lang('YES') }}</label>
+			<label><input type="radio" class="radio" name="inmemorium_show_badge" value="0"{% if not INMEMORIUM_SHOW_BADGE %} checked{% endif %}> {{ lang('NO') }}</label>
+		</dd>
+	</dl>
+
+</fieldset>
+
+<fieldset>
+	<legend>{{ lang('ACP_INMEMORIUM_REQUESTS') }}</legend>
+
+	<dl>
+		<dt>
+			<label for="inmemorium_legacy_enabled">{{ lang('ACP_INMEMORIUM_LEGACY_ENABLE') }}{{ lang('COLON') }}</label>
+			<span>{{ lang('ACP_INMEMORIUM_LEGACY_ENABLE_EXPLAIN') }}</span>
+		</dt>
+		<dd>
+			<label><input type="radio" class="radio" name="inmemorium_legacy_enabled" value="1"{% if INMEMORIUM_LEGACY_ENABLED %} checked{% endif %}> {{ lang('YES') }}</label>
+			<label><input type="radio" class="radio" name="inmemorium_legacy_enabled" value="0"{% if not INMEMORIUM_LEGACY_ENABLED %} checked{% endif %}> {{ lang('NO') }}</label>
+		</dd>
+	</dl>
+
+	<dl>
+		<dt>
+			<label for="inmemorium_request_expire">{{ lang('ACP_INMEMORIUM_EXPIRE') }}{{ lang('COLON') }}</label>
+			<span>{{ lang('ACP_INMEMORIUM_EXPIRE_EXPLAIN') }}</span>
+		</dt>
+		<dd><input type="number" id="inmemorium_request_expire" name="inmemorium_request_expire" value="{{ INMEMORIUM_EXPIRE }}" min="1" max="365" class="inputbox narrow"></dd>
+	</dl>
+
+	<dl>
+		<dt>
+			<label for="inmemorium_max_attempts">{{ lang('ACP_INMEMORIUM_MAX_ATTEMPTS') }}{{ lang('COLON') }}</label>
+			<span>{{ lang('ACP_INMEMORIUM_MAX_ATTEMPTS_EXPLAIN') }}</span>
+		</dt>
+		<dd><input type="number" id="inmemorium_max_attempts" name="inmemorium_max_attempts" value="{{ INMEMORIUM_MAX_ATTEMPTS }}" min="1" max="20" class="inputbox narrow"></dd>
+	</dl>
+
+	<dl>
+		<dt>
+			<label for="inmemorium_notify_admin">{{ lang('ACP_INMEMORIUM_NOTIFY_ADMIN') }}{{ lang('COLON') }}</label>
+			<span>{{ lang('ACP_INMEMORIUM_NOTIFY_ADMIN_EXPLAIN') }}</span>
+		</dt>
+		<dd>
+			<label><input type="radio" class="radio" name="inmemorium_notify_admin" value="1"{% if INMEMORIUM_NOTIFY_ADMIN %} checked{% endif %}> {{ lang('YES') }}</label>
+			<label><input type="radio" class="radio" name="inmemorium_notify_admin" value="0"{% if not INMEMORIUM_NOTIFY_ADMIN %} checked{% endif %}> {{ lang('NO') }}</label>
+		</dd>
+	</dl>
+
+	<dl>
+		<dt>
+			<label for="inmemorium_notify_pm">{{ lang('ACP_INMEMORIUM_NOTIFY_PM') }}{{ lang('COLON') }}</label>
+			<span>{{ lang('ACP_INMEMORIUM_NOTIFY_PM_EXPLAIN') }}</span>
+		</dt>
+		<dd>
+			<label><input type="radio" class="radio" name="inmemorium_notify_pm" value="1"{% if INMEMORIUM_NOTIFY_PM %} checked{% endif %}> {{ lang('YES') }}</label>
+			<label><input type="radio" class="radio" name="inmemorium_notify_pm" value="0"{% if not INMEMORIUM_NOTIFY_PM %} checked{% endif %}> {{ lang('NO') }}</label>
+		</dd>
+	</dl>
+
+	<dl>
+		<dt>
+			<label for="inmemorium_notify_legacy">{{ lang('ACP_INMEMORIUM_NOTIFY_LEGACY') }}{{ lang('COLON') }}</label>
+			<span>{{ lang('ACP_INMEMORIUM_NOTIFY_LEGACY_EXPLAIN') }}</span>
+		</dt>
+		<dd>
+			<label><input type="radio" class="radio" name="inmemorium_notify_legacy" value="1"{% if INMEMORIUM_NOTIFY_LEGACY %} checked{% endif %}> {{ lang('YES') }}</label>
+			<label><input type="radio" class="radio" name="inmemorium_notify_legacy" value="0"{% if not INMEMORIUM_NOTIFY_LEGACY %} checked{% endif %}> {{ lang('NO') }}</label>
+		</dd>
+	</dl>
+</fieldset>
+
+<fieldset>
+	<legend>{{ lang('ACP_INMEMORIUM_GROUP') }}</legend>
+
+	<dl>
+		<dt>
+			<label for="inmemorium_group_sync">{{ lang('ACP_INMEMORIUM_GROUP_SYNC') }}{{ lang('COLON') }}</label>
+			<span>{{ lang('ACP_INMEMORIUM_GROUP_SYNC_EXPLAIN') }}</span>
+		</dt>
+		<dd>
+			<label><input type="radio" class="radio" name="inmemorium_group_sync" value="1"{% if INMEMORIUM_GROUP_SYNC %} checked{% endif %}> {{ lang('YES') }}</label>
+			<label><input type="radio" class="radio" name="inmemorium_group_sync" value="0"{% if not INMEMORIUM_GROUP_SYNC %} checked{% endif %}> {{ lang('NO') }}</label>
+		</dd>
+	</dl>
+
+	<p class="submit-buttons">
+		<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}">
+		<input class="button2" type="reset" value="{{ lang('RESET') }}">
+	</p>
+
+	{{ S_FORM_TOKEN }}
+</fieldset>
+</form>
+
+{% include 'overall_footer.html' %}

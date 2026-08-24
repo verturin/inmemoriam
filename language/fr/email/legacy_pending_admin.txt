@@ -1,0 +1,26 @@
+Subject: Demande de suppression de compte a valider
+
+Bonjour,
+
+Une personne legataire vient de valider son code de securite sur "{SITENAME}".
+Une demande de suppression de compte attend desormais votre decision.
+
+  Compte concerne      : {MEMBER_NAME}
+  Personne legataire   : {LEGACY_EMAIL}
+  Validation effectuee : {VALIDATED_ON}
+
+Pour statuer, rendez-vous dans le panneau d'administration :
+
+  {ACP_URL}
+
+  Extensions -> In Memoriam -> Demandes de suppression
+
+Vous devrez saisir la cle de reference que la personne legataire vous
+communiquera. Elle lui a ete affichee apres validation de son code. Cette
+double verification garantit que la demande emane bien de la personne
+designee par le membre.
+
+N'approuvez la demande qu'apres avoir obtenu cette cle par un canal dont
+vous etes sur, et vous etre assure de la realite du deces.
+
+{EMAIL_SIG}

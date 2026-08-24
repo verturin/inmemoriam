@@ -1,0 +1,133 @@
+{% include 'overall_header.html' %}
+
+{% INCLUDEJS '@verturin_inmemorium/js/inmemorium_qr.js' %}
+
+{# Les regles d'impression sont posees ici, et non dans la feuille de style
+   de l'extension : phpBB injecte celle-ci avec media="screen, projection",
+   si bien qu'un bloc @media print n'y serait jamais lu par le navigateur. #}
+<style media="print">
+	body * {
+		visibility: hidden;
+	}
+
+	.inmemorium-sheet,
+	.inmemorium-sheet * {
+		visibility: visible;
+	}
+
+	.inmemorium-sheet {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		margin: 0;
+		padding: 0;
+		border: 0;
+		box-shadow: none;
+		background: none;
+	}
+
+	.inmemorium-noprint {
+		display: none !important;
+	}
+
+	.inmemorium-key {
+		border: 1px solid #000;
+		background: none;
+	}
+
+	.inmemorium-sheet-body {
+		display: block;
+	}
+
+	.inmemorium-sheet-qr {
+		margin-top: 16px;
+	}
+
+	@page {
+		margin: 14mm;
+	}
+</style>
+
+<h2 class="posting-title">{{ lang('INMEMORIUM_LG_VALIDATE_TITLE') }}</h2>
+
+{% if S_VALIDATED %}
+	<div class="panel inmemorium-sheet">
+		<div class="inner">
+			<div class="successbox inmemorium-noprint">
+				<h3>{{ lang('INMEMORIUM_LG_OK_TITLE') }}</h3>
+				<p>{{ lang('INMEMORIUM_LG_OK_BODY') }}</p>
+			</div>
+
+			<div class="inmemorium-sheet-head">
+				<h3>{{ lang('INMEMORIUM_LG_SHEET_TITLE') }}</h3>
+				<p>{{ lang('INMEMORIUM_LG_SHEET_MEMBER', MEMBER_NAME) }}</p>
+				<p>{{ lang('INMEMORIUM_LG_SHEET_DATE', VALIDATED_ON) }}</p>
+			</div>
+
+			<div class="inmemorium-sheet-body">
+				<div class="inmemorium-sheet-key">
+					<span class="inmemorium-label">{{ lang('INMEMORIUM_LG_ADMIN_KEY') }}</span>
+					<code class="inmemorium-key">{{ ADMIN_KEY }}</code>
+					<p class="inmemorium-hint">{{ lang('INMEMORIUM_LG_ADMIN_KEY_EXPLAIN') }}</p>
+				</div>
+
+				<div class="inmemorium-sheet-qr">
+					<div data-inmemorium-qr="{{ PAGE_URL }}" data-size="200"
+					     data-alt="{{ lang('INMEMORIUM_LG_QR_ALT') }}">
+						<span class="inmemorium-qr-fallback">{{ PAGE_URL }}</span>
+					</div>
+					<p class="inmemorium-hint">{{ lang('INMEMORIUM_LG_QR_CAPTION') }}</p>
+				</div>
+			</div>
+
+			<p class="inmemorium-noprint">
+				<a href="#" class="button2" onclick="window.print(); return false;">{{ lang('INMEMORIUM_LG_PRINT') }}</a>
+			</p>
+			<p class="inmemorium-noprint inmemorium-hint">{{ lang('INMEMORIUM_LG_PRINT_EXPLAIN') }}</p>
+		</div>
+	</div>
+{% else %}
+	<form method="post" action="{{ S_ACTION }}">
+	<div class="panel">
+		<div class="inner">
+
+			<p>{{ lang('INMEMORIUM_LG_VALIDATE_EXPLAIN') }}</p>
+
+			{% if ERROR %}
+				<div class="errorbox"><p>{{ ERROR }}</p></div>
+			{% endif %}
+
+			<fieldset class="fields2">
+				<dl>
+					<dt>
+						<label for="security_code">{{ lang('INMEMORIUM_LG_CODE') }}{{ lang('COLON') }}</label>
+						<span>{{ lang('INMEMORIUM_LG_CODE_EXPLAIN') }}</span>
+					</dt>
+					<dd>
+						<input type="text" name="security_code" id="security_code" maxlength="30"
+						       class="inputbox inmemorium-code-input" autocomplete="off"
+						       placeholder="XXXXX-XXXXX-XXXXX-XXXXX" required>
+					</dd>
+				</dl>
+			</fieldset>
+
+			<fieldset class="submit-buttons">
+				<input type="submit" name="submit" class="button1" value="{{ lang('INMEMORIUM_LG_VALIDATE_BTN') }}">
+				{{ S_FORM_TOKEN }}
+			</fieldset>
+
+			<div class="inmemorium-mobile-switch">
+				<p>{{ lang('INMEMORIUM_LG_CONTINUE_MOBILE') }}</p>
+				<div data-inmemorium-qr="{{ PAGE_URL }}" data-size="200"
+				     data-alt="{{ lang('INMEMORIUM_LG_QR_ALT') }}">
+					<span class="inmemorium-qr-fallback">{{ PAGE_URL }}</span>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	</form>
+{% endif %}
+
+{% include 'overall_footer.html' %}

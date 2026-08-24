@@ -1,0 +1,25 @@
+Subject: Account deletion request - security code
+
+Hello {LEGACY_NAME},
+
+You have been designated as the legacy contact for {MEMBER_NAME}'s account on
+"{SITENAME}". A request to delete this account has just been registered.
+
+Your security code:
+
+    {SECURITY_CODE}
+
+To proceed, open the following page and enter this code:
+
+{VALIDATE_URL}
+
+This code is valid for {EXPIRE_DAYS} days. It is strictly personal: do not share
+it with anyone, not even a board administrator.
+
+Once the code is entered, a reference key will be displayed to you. An
+administrator must confirm it before the deletion is carried out.
+
+If you did not initiate this request, please ignore this message: no action will
+be taken without the code above being entered.
+
+{EMAIL_SIG}
