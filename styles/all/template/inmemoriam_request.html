@@ -1,0 +1,69 @@
+{% include 'overall_header.html' %}
+
+<h2 class="posting-title">{{ lang('INMEMORIAM_LG_REQUEST_TITLE') }}</h2>
+
+{% if S_SENT %}
+	<div class="panel">
+		<div class="inner">
+			<div class="successbox">
+				<h3>{{ lang('INMEMORIAM_LG_SENT_TITLE') }}</h3>
+				<p>{{ lang('INMEMORIAM_LG_SENT_BODY') }}</p>
+			</div>
+		</div>
+	</div>
+{% else %}
+	<form method="post" action="{{ S_ACTION }}">
+	<div class="panel">
+		<div class="inner">
+
+			<p>{{ lang('INMEMORIAM_LG_REQUEST_EXPLAIN') }}</p>
+
+			{% if ERROR %}
+				<div class="errorbox"><p>{{ ERROR }}</p></div>
+			{% endif %}
+
+			<fieldset class="fields2">
+				<dl>
+					<dt>
+						<label for="username">{{ lang('INMEMORIAM_LG_MEMBER') }}{{ lang('COLON') }}</label>
+						<span>{{ lang('INMEMORIAM_LG_MEMBER_EXPLAIN') }}</span>
+					</dt>
+					<dd><input type="text" name="username" id="username" maxlength="255" value="{{ PREFILL_USER }}" class="inputbox" required></dd>
+				</dl>
+				<dl>
+					<dt>
+						<label for="legacy_email">{{ lang('INMEMORIAM_LG_YOUR_EMAIL') }}{{ lang('COLON') }}</label>
+						<span>{{ lang('INMEMORIAM_LG_YOUR_EMAIL_EXPLAIN') }}</span>
+					</dt>
+					<dd><input type="email" name="legacy_email" id="legacy_email" maxlength="100" value="{{ PREFILL_EMAIL }}" class="inputbox" required></dd>
+				</dl>
+				<dl>
+					<dt>
+						<label for="activation_code">{{ lang('INMEMORIAM_LG_ACTIVATION') }}{{ lang('COLON') }}</label>
+						<span>{{ lang('INMEMORIAM_LG_ACTIVATION_EXPLAIN') }}</span>
+					</dt>
+					<dd>
+						<input type="text" name="activation_code" id="activation_code" maxlength="30"
+						       class="inputbox inmemoriam-code-input" autocomplete="off"
+						       placeholder="XXXXX-XXXXX-XXXXX-XXXXX" required>
+					</dd>
+				</dl>
+			</fieldset>
+
+			<div class="rules">
+				<div class="inner">
+					<p>{{ lang('INMEMORIAM_LG_PRIVACY_NOTICE') }}</p>
+				</div>
+			</div>
+
+			<fieldset class="submit-buttons">
+				<input type="submit" name="submit" class="button1" value="{{ lang('SUBMIT') }}">
+				{{ S_FORM_TOKEN }}
+			</fieldset>
+
+		</div>
+	</div>
+	</form>
+{% endif %}
+
+{% include 'overall_footer.html' %}

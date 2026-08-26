@@ -6,18 +6,18 @@
  * @license GNU General Public License, version 2 (GPL-2.0)
  */
 
-namespace verturin\inmemorium\migrations;
+namespace verturin\inmemoriam\migrations;
 
 class install_legacy extends \phpbb\db\migration\migration
 {
 	public static function depends_on()
 	{
-		return ['\verturin\inmemorium\migrations\install_acp_module'];
+		return ['\verturin\inmemoriam\migrations\install_acp_module'];
 	}
 
 	public function effectively_installed()
 	{
-		return $this->db_tools->sql_table_exists($this->table_prefix . 'inmemorium_legacy');
+		return $this->db_tools->sql_table_exists($this->table_prefix . 'inmemoriam_legacy');
 	}
 
 	public function update_schema()
@@ -25,7 +25,7 @@ class install_legacy extends \phpbb\db\migration\migration
 		return [
 			'add_tables' => [
 				// Legataire designe par le membre lui-meme (depuis son panneau).
-				$this->table_prefix . 'inmemorium_legacy' => [
+				$this->table_prefix . 'inmemoriam_legacy' => [
 					'COLUMNS' => [
 						'legacy_id'    => ['UINT', null, 'auto_increment'],
 						'user_id'      => ['UINT', 0],
@@ -40,7 +40,7 @@ class install_legacy extends \phpbb\db\migration\migration
 				],
 
 				// Demande de suppression initiee par le legataire.
-				$this->table_prefix . 'inmemorium_request' => [
+				$this->table_prefix . 'inmemoriam_request' => [
 					'COLUMNS' => [
 						'request_id'     => ['UINT', null, 'auto_increment'],
 						'user_id'        => ['UINT', 0],
@@ -73,17 +73,17 @@ class install_legacy extends \phpbb\db\migration\migration
 	{
 		return [
 			// Duree de validite d'une demande, en jours.
-			['config.add', ['inmemorium_request_expire', 30]],
+			['config.add', ['inmemoriam_request_expire', 30]],
 			// Nombre d'essais autorises sur le code de securite.
-			['config.add', ['inmemorium_max_attempts', 5]],
+			['config.add', ['inmemoriam_max_attempts', 5]],
 			// Autoriser les membres a designer un legataire.
-			['config.add', ['inmemorium_legacy_enabled', 1]],
+			['config.add', ['inmemoriam_legacy_enabled', 1]],
 
 			['module.add', [
 				'ucp',
 				'UCP_PROFILE',
 				[
-					'module_basename' => '\verturin\inmemorium\ucp\main_module',
+					'module_basename' => '\verturin\inmemoriam\ucp\main_module',
 					'modes'           => ['legacy'],
 				],
 			]],
@@ -94,8 +94,8 @@ class install_legacy extends \phpbb\db\migration\migration
 	{
 		return [
 			'drop_tables' => [
-				$this->table_prefix . 'inmemorium_legacy',
-				$this->table_prefix . 'inmemorium_request',
+				$this->table_prefix . 'inmemoriam_legacy',
+				$this->table_prefix . 'inmemoriam_request',
 			],
 		];
 	}

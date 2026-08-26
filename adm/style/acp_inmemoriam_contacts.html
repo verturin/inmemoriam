@@ -1,0 +1,47 @@
+{% include 'overall_header.html' %}
+
+<h1>{{ lang('ACP_INMEMORIAM_CONTACTS') }}</h1>
+
+<p>{{ lang('ACP_INMEMORIAM_CT_EXPLAIN') }}</p>
+
+<fieldset class="tabulated">
+	<legend>{{ lang('ACP_INMEMORIAM_CT_LIST', TOTAL) }}</legend>
+
+	<table class="table1">
+	<thead>
+		<tr>
+			<th>{{ lang('ACP_INMEMORIAM_USERNAME') }}</th>
+			<th>{{ lang('ACP_INMEMORIAM_CT_NAME') }}</th>
+			<th>{{ lang('ACP_INMEMORIAM_CT_EMAIL') }}</th>
+			<th style="width: 20%;">{{ lang('ACP_INMEMORIAM_CT_WISH') }}</th>
+			<th style="width: 14%;">{{ lang('ACP_INMEMORIAM_CT_DATE') }}</th>
+			<th style="width: 10%;">{{ lang('ACP_INMEMORIAM_ACTIONS') }}</th>
+		</tr>
+	</thead>
+	<tbody>
+	{% for row in contacts %}
+		<tr class="{{ loop.index is odd ? 'bg1' : 'bg2' }}">
+			<td>
+				{{ row.USERNAME_FULL }}
+				{% if row.S_DECEASED %}
+					<br><em style="font-size: .9em;">{{ lang('ACP_INMEMORIAM_CT_IS_DECEASED') }}</em>
+				{% endif %}
+			</td>
+			<td>{{ row.LEGACY_NAME }}</td>
+			<td><a href="mailto:{{ row.LEGACY_EMAIL }}">{{ row.LEGACY_EMAIL }}</a></td>
+			<td>{{ row.WISH }}</td>
+			<td style="text-align: center;">{{ row.LEGACY_DATE }}</td>
+			<td style="text-align: center;"><a href="{{ row.U_DELETE }}">{{ lang('ACP_INMEMORIAM_REMOVE') }}</a></td>
+		</tr>
+	{% else %}
+		<tr class="bg1">
+			<td colspan="6" style="text-align: center;">{{ lang('ACP_INMEMORIAM_CT_NONE') }}</td>
+		</tr>
+	{% endfor %}
+	</tbody>
+	</table>
+</fieldset>
+
+<p>{{ lang('ACP_INMEMORIAM_CT_PRIVACY') }}</p>
+
+{% include 'overall_footer.html' %}

@@ -2,7 +2,7 @@ Subject: You have been designated as a legacy contact
 
 Hello {LEGACY_NAME},
 
-{MEMBER_NAME}, a member of the board "{SITENAME}", has designated you as
+{MEMBER_NAME}, a member of {BOARD_LABEL}, has designated you as
 the legacy contact for their account.
 
 In practice this means that, after their passing, you will be allowed to
@@ -10,22 +10,30 @@ request the deletion of their account. You gain no rights over the account
 during their lifetime: you can neither sign in to it, nor modify it, nor
 read their private messages.
 
-When the time comes, the procedure will be as follows:
+YOUR ACTIVATION CODE
+
+    {ACTIVATION_CODE}
+
+Keep it safe. You will be asked for it when submitting the request, and it
+will not be sent to you again. Store it somewhere you will still remember
+in several years: this email is the only one that contains it.
+
+THE PROCEDURE, WHEN THE TIME COMES
 
   1. You will fill in the form at this address:
      {REQUEST_URL}
-     giving the username {MEMBER_NAME} and this email address.
+     giving the username {MEMBER_NAME}, this email address, and the
+     activation code above.
 
-  2. A security code will be sent to you here.
+  2. A security code will then be sent to you here.
 
   3. You will enter that code on the page indicated. A reference key will
-     then be shown to you.
+     be given to you.
 
   4. An administrator will confirm that key before the deletion is
      carried out.
 
-No action is required from you today. Simply keep this message: it
-contains the address of the form.
+No action is required from you today.
 
 If you believe you received this email in error, please contact
 {MEMBER_NAME} or a board administrator.

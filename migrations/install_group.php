@@ -6,35 +6,35 @@
  * @license GNU General Public License, version 2 (GPL-2.0)
  */
 
-namespace verturin\inmemorium\migrations;
+namespace verturin\inmemoriam\migrations;
 
 class install_group extends \phpbb\db\migration\migration
 {
 	public static function depends_on()
 	{
-		return ['\verturin\inmemorium\migrations\install_legacy'];
+		return ['\verturin\inmemoriam\migrations\install_legacy'];
 	}
 
 	public function effectively_installed()
 	{
-		return isset($this->config['inmemorium_group_id']);
+		return isset($this->config['inmemoriam_group_id']);
 	}
 
 	public function update_data()
 	{
 		return [
-			['config.add', ['inmemorium_group_id', 0]],
-			['config.add', ['inmemorium_group_sync', 1]],
-			['config.add', ['inmemorium_notify_legacy', 1]],
+			['config.add', ['inmemoriam_group_id', 0]],
+			['config.add', ['inmemoriam_group_sync', 1]],
+			['config.add', ['inmemoriam_notify_legacy', 1]],
 
 			['custom', [[$this, 'create_group']]],
 
 			// Recapitulatif des personnes legataires designees.
 			['module.add', [
 				'acp',
-				'ACP_INMEMORIUM_TITLE',
+				'ACP_INMEMORIAM_TITLE',
 				[
-					'module_basename' => '\verturin\inmemorium\acp\main_module',
+					'module_basename' => '\verturin\inmemoriam\acp\main_module',
 					'modes'           => ['contacts'],
 				],
 			]],
@@ -56,7 +56,7 @@ class install_group extends \phpbb\db\migration\migration
 
 		if ($row)
 		{
-			$this->config->set('inmemorium_group_id', (int) $row['group_id']);
+			$this->config->set('inmemoriam_group_id', (int) $row['group_id']);
 
 			return;
 		}
@@ -84,7 +84,7 @@ class install_group extends \phpbb\db\migration\migration
 			'group_skip_auth'      => 0,
 		]));
 
-		$this->config->set('inmemorium_group_id', (int) $this->db->sql_nextid());
+		$this->config->set('inmemoriam_group_id', (int) $this->db->sql_nextid());
 	}
 
 	/**
@@ -99,7 +99,7 @@ class install_group extends \phpbb\db\migration\migration
 
 	public function delete_group()
 	{
-		$group_id = (int) $this->config['inmemorium_group_id'];
+		$group_id = (int) $this->config['inmemoriam_group_id'];
 
 		if (!$group_id)
 		{

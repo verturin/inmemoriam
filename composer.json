@@ -1,9 +1,9 @@
 {
-    "name": "verturin/inmemorium",
+    "name": "verturin/inmemoriam",
     "type": "phpbb-extension",
     "description": "Bandeau commemoratif multilingue pour les membres decedes",
-    "homepage": "https://github.com/verturin/inmemorium",
-    "version": "1.6.0",
+    "homepage": "https://github.com/verturin/inmemoriam",
+    "version": "2.2.0",
     "time": "2026-08-21",
     "keywords": [
         "phpbb",

@@ -6,24 +6,24 @@
  * @license GNU General Public License, version 2 (GPL-2.0)
  */
 
-namespace verturin\inmemorium\migrations;
+namespace verturin\inmemoriam\migrations;
 
 class install_pm_notice extends \phpbb\db\migration\migration
 {
 	public static function depends_on()
 	{
-		return ['\verturin\inmemorium\migrations\install_ucp_menu'];
+		return ['\verturin\inmemoriam\migrations\install_ucp_menu'];
 	}
 
 	public function effectively_installed()
 	{
-		return isset($this->config['inmemorium_notify_pm']);
+		return isset($this->config['inmemoriam_notify_pm']);
 	}
 
 	public function update_data()
 	{
 		return [
-			['config.add', ['inmemorium_notify_pm', 1]],
+			['config.add', ['inmemoriam_notify_pm', 1]],
 		];
 	}
 }

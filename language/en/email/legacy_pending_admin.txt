@@ -2,7 +2,7 @@ Subject: Account deletion request awaiting your decision
 
 Hello,
 
-A legacy contact has just validated their security code on "{SITENAME}".
+A legacy contact has just validated their security code on {BOARD_LABEL}.
 An account deletion request is now awaiting your decision.
 
   Account concerned : {MEMBER_NAME}

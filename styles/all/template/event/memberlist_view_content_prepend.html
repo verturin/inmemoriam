@@ -1,12 +1,12 @@
-{% if INMEMORIUM_SHOW %}
-<div class="inmemorium-banner" style="background-color: {{ INMEMORIUM_COLOR }};">
-	<div class="inmemorium-icon" aria-hidden="true">&#10013;</div>
-	<div class="inmemorium-text">
-		<strong>{{ lang('INMEMORIUM_TITLE') }}</strong>
-		{% if INMEMORIUM_DEATH_DATE %}
-			<span class="inmemorium-death-date">{{ lang('INMEMORIUM_DEATH_DATE', INMEMORIUM_DEATH_DATE) }}</span>
+{% if INMEMORIAM_SHOW %}
+<div class="inmemoriam-banner" style="background-color: {{ INMEMORIAM_COLOR }};">
+	<div class="inmemoriam-icon" aria-hidden="true">&#10013;</div>
+	<div class="inmemoriam-text">
+		<strong>{{ lang('INMEMORIAM_TITLE') }}</strong>
+		{% if INMEMORIAM_DEATH_DATE %}
+			<span class="inmemoriam-death-date">{{ lang('INMEMORIAM_DEATH_DATE', INMEMORIAM_DEATH_DATE) }}</span>
 		{% endif %}
-		<span class="inmemorium-memorial-text">{{ INMEMORIUM_TEXT }}</span>
+		<span class="inmemoriam-memorial-text">{{ INMEMORIAM_TEXT }}</span>
 	</div>
 </div>
 {% endif %}

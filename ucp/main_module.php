@@ -6,7 +6,7 @@
  * @license GNU General Public License, version 2 (GPL-2.0)
  */
 
-namespace verturin\inmemorium\ucp;
+namespace verturin\inmemoriam\ucp;
 
 if (!defined('IN_PHPBB'))
 {
@@ -23,28 +23,28 @@ class main_module
 	{
 		global $phpbb_container, $language, $template, $request, $user;
 
-		$manager = $phpbb_container->get('verturin.inmemorium.legacy_manager');
+		$manager = $phpbb_container->get('verturin.inmemoriam.legacy_manager');
 		$config  = $phpbb_container->get('config');
 		$helper  = $phpbb_container->get('controller.helper');
 
-		$language->add_lang('ucp_inmemorium', 'verturin/inmemorium');
+		$language->add_lang('ucp_inmemoriam', 'verturin/inmemoriam');
 
-		$this->tpl_name   = 'ucp_inmemorium_legacy';
-		$this->page_title = $language->lang('UCP_INMEMORIUM_LEGACY');
+		$this->tpl_name   = 'ucp_inmemoriam_legacy';
+		$this->page_title = $language->lang('UCP_INMEMORIAM_LEGACY');
 
-		add_form_key('inmemorium_ucp');
+		add_form_key('inmemoriam_ucp');
 
 		$user_id = (int) $user->data['user_id'];
 		$errors  = [];
 
-		if (empty($config['inmemorium_legacy_enabled']))
+		if (empty($config['inmemoriam_legacy_enabled']))
 		{
-			trigger_error($language->lang('UCP_INMEMORIUM_DISABLED'));
+			trigger_error($language->lang('UCP_INMEMORIAM_DISABLED'));
 		}
 
 		if ($request->is_set_post('submit') || $request->is_set_post('delete'))
 		{
-			if (!check_form_key('inmemorium_ucp'))
+			if (!check_form_key('inmemoriam_ucp'))
 			{
 				$errors[] = $language->lang('FORM_INVALID');
 			}
@@ -53,7 +53,7 @@ class main_module
 			{
 				$manager->delete_legacy($user_id);
 				meta_refresh(3, $this->u_action);
-				trigger_error($language->lang('UCP_INMEMORIUM_DELETED') . '<br><br>' .
+				trigger_error($language->lang('UCP_INMEMORIAM_DELETED') . '<br><br>' .
 					$language->lang('RETURN_UCP', '<a href="' . $this->u_action . '">', '</a>'));
 			}
 
@@ -64,7 +64,7 @@ class main_module
 
 				if (utf8_clean_string($name) === '')
 				{
-					$errors[] = $language->lang('UCP_INMEMORIUM_NAME_REQUIRED');
+					$errors[] = $language->lang('UCP_INMEMORIAM_NAME_REQUIRED');
 				}
 
 				if (!function_exists('validate_data'))
@@ -89,27 +89,61 @@ class main_module
 				// Le legataire ne peut pas etre le membre lui-meme.
 				if ($email === strtolower($user->data['user_email']))
 				{
-					$errors[] = $language->lang('UCP_INMEMORIUM_EMAIL_SELF');
+					$errors[] = $language->lang('UCP_INMEMORIAM_EMAIL_SELF');
 				}
 
 				if (empty($errors))
 				{
-					$previous = $manager->get_legacy($user_id);
-					$manager->set_legacy($user_id, $name, $email);
+					$mode   = $request->variable('deletion_mode', 'board');
+					$months = $request->variable('deletion_months', 12);
 
-					// Prevenir la personne designee, sauf si rien n'a change :
-					// on evite de la relancer a chaque enregistrement.
-					$is_new = !$previous || strtolower($previous['legacy_email']) !== $email;
+					$code = $manager->set_legacy($user_id, $name, $email, $mode, $months);
 
-					if ($is_new && !empty($config['inmemorium_notify_legacy']))
+					// Le membre peut preferer remettre la fiche lui-meme :
+					// dans ce cas aucun courriel ne part, et le code sera
+					// affiche sur la fiche a imprimer.
+					$send_mail = $request->variable('send_mail', 0);
+
+					if ($code !== '' && $send_mail && !empty($config['inmemoriam_notify_legacy']))
 					{
-						$this->notify_legacy($helper, $config, $user, $name, $email);
+						$this->notify_legacy($helper, $config, $user, $name, $email, $code, $manager, $language);
 					}
 
 					meta_refresh(3, $this->u_action);
-					trigger_error($language->lang('UCP_INMEMORIUM_SAVED') . '<br><br>' .
+					trigger_error($language->lang('UCP_INMEMORIAM_SAVED') . '<br><br>' .
 						$language->lang('RETURN_UCP', '<a href="' . $this->u_action . '">', '</a>'));
 				}
+			}
+		}
+
+		// Fiche a imprimer : un nouveau code d'activation est produit et
+		// affiche une seule fois. En redemander une invalide la precedente.
+		if ($request->variable('action', '') === 'sheet')
+		{
+			$sheet = $manager->issue_sheet($user_id);
+
+			if ($sheet)
+			{
+				$row = $manager->get_legacy($user_id);
+
+				$this->tpl_name = 'ucp_inmemoriam_sheet';
+
+				$sheet_url = generate_board_url() . '/' . ltrim(
+					$helper->route('inmemoriam_legacy_request', ['token' => $sheet['token']], false),
+					'/'
+				);
+
+				$template->assign_vars([
+					'MEMBER_NAME'     => $user->data['username'],
+					'LEGACY_NAME'     => $row['legacy_name'],
+					'LEGACY_EMAIL'    => $row['legacy_email'],
+					'ACTIVATION_CODE' => $sheet['code'],
+					'SHEET_URL'       => $sheet_url,
+					'BOARD_LABEL'     => $manager->board_label($language),
+					'U_BACK'          => $this->u_action,
+				]);
+
+				return;
 			}
 		}
 
@@ -119,6 +153,9 @@ class main_module
 			'ERROR'        => !empty($errors) ? implode('<br>', $errors) : '',
 			'LEGACY_NAME'  => $legacy ? $legacy['legacy_name'] : '',
 			'LEGACY_EMAIL' => $legacy ? $legacy['legacy_email'] : '',
+			'DELETION_MODE'   => $legacy ? $legacy['deletion_mode'] : 'board',
+			'DELETION_MONTHS' => $legacy ? (int) $legacy['deletion_months'] : 12,
+			'U_SHEET'         => $this->u_action . '&amp;action=sheet',
 			'S_HAS_LEGACY' => (bool) $legacy,
 			'LEGACY_DATE'  => $legacy ? $user->format_date($legacy['legacy_time']) : '',
 			'S_UCP_ACTION' => $this->u_action,
@@ -129,7 +166,7 @@ class main_module
 	 * Informe la personne designee, et lui transmet l'adresse du formulaire
 	 * qu'elle devra utiliser le moment venu.
 	 */
-	protected function notify_legacy($helper, $config, $user, $name, $email)
+	protected function notify_legacy($helper, $config, $user, $name, $email, $code, $manager, $language)
 	{
 		global $phpbb_root_path, $phpEx;
 
@@ -139,18 +176,20 @@ class main_module
 		}
 
 		$request_url = generate_board_url() . '/' . ltrim(
-			$helper->route('inmemorium_legacy_request', [], false),
+			$helper->route('inmemoriam_legacy_request', [], false),
 			'/'
 		);
 
 		$messenger = new \messenger(false);
-		$messenger->template('@verturin_inmemorium/legacy_designated', $config['default_lang']);
+		$messenger->template('@verturin_inmemoriam/legacy_designated', $config['default_lang']);
 		$messenger->to($email, $name);
 		$messenger->anti_abuse_headers($config, $user);
 		$messenger->assign_vars([
 			'LEGACY_NAME' => htmlspecialchars_decode($name),
 			'MEMBER_NAME' => htmlspecialchars_decode($user->data['username']),
-			'REQUEST_URL' => $request_url,
+			'REQUEST_URL'     => $request_url,
+			'ACTIVATION_CODE' => $code,
+			'BOARD_LABEL'     => $manager->board_label($language),
 		]);
 		$messenger->send(NOTIFY_EMAIL);
 	}

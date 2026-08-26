@@ -2,7 +2,7 @@ Subject: Vous avez ete designe(e) comme personne legataire
 
 Bonjour {LEGACY_NAME},
 
-{MEMBER_NAME}, membre du forum "{SITENAME}", vous a designe(e) comme
+{MEMBER_NAME}, membre de {BOARD_LABEL}, vous a designe(e) comme
 personne legataire de son compte.
 
 Concretement, cela signifie qu'apres sa disparition, vous serez autorise(e)
@@ -10,23 +10,30 @@ a demander la suppression de son compte. Vous n'obtenez aucun droit sur ce
 compte de son vivant : vous ne pouvez ni vous y connecter, ni le modifier,
 ni consulter ses messages prives.
 
-Le moment venu, la demarche se deroulera ainsi :
+VOTRE CODE D'ACTIVATION
+
+    {ACTIVATION_CODE}
+
+Conservez-le. Il vous sera demande au moment de deposer la demande, et il
+ne vous sera pas renvoye. Rangez-le a un endroit dont vous vous souviendrez
+dans plusieurs annees : ce courriel est le seul a le contenir.
+
+LA DEMARCHE, LE MOMENT VENU
 
   1. Vous remplirez le formulaire prevu a cette adresse :
      {REQUEST_URL}
-     en indiquant le nom d'utilisateur {MEMBER_NAME} et la presente
-     adresse de courriel.
+     en indiquant le nom d'utilisateur {MEMBER_NAME}, la presente adresse
+     de courriel, et le code d'activation ci-dessus.
 
-  2. Un code de securite vous sera envoye ici meme.
+  2. Un code de securite vous sera alors envoye ici meme.
 
   3. Vous saisirez ce code sur la page indiquee. Une cle de reference
-     vous sera alors communiquee.
+     vous sera communiquee.
 
   4. Un administrateur confirmera cette cle avant que la suppression
      ne soit effectuee.
 
-Aucune action ne vous est demandee aujourd'hui. Conservez simplement ce
-message : il contient l'adresse du formulaire.
+Aucune action ne vous est demandee aujourd'hui.
 
 Si vous estimez avoir recu ce courriel par erreur, prenez contact avec
 {MEMBER_NAME} ou avec un administrateur du forum.

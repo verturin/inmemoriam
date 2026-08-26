@@ -1,11 +1,19 @@
-inmemorium_legacy_request:
+inmemoriam_legacy_request:
     path: /inmemoriam/demande
     defaults:
-        _controller: verturin.inmemorium.controller.legacy:request_page
+        _controller: verturin.inmemoriam.controller.legacy:request_page
+        token: ''
 
-inmemorium_legacy_validate:
+inmemoriam_legacy_request_token:
+    path: /inmemoriam/demande/{token}
+    defaults:
+        _controller: verturin.inmemoriam.controller.legacy:request_page
+    requirements:
+        token: '[a-f0-9]{32}'
+
+inmemoriam_legacy_validate:
     path: /inmemoriam/validation/{token}
     defaults:
-        _controller: verturin.inmemorium.controller.legacy:validate_page
+        _controller: verturin.inmemoriam.controller.legacy:validate_page
     requirements:
         token: '[a-f0-9]{32}'

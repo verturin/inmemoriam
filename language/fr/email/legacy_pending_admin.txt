@@ -2,7 +2,7 @@ Subject: Demande de suppression de compte a valider
 
 Bonjour,
 
-Une personne legataire vient de valider son code de securite sur "{SITENAME}".
+Une personne legataire vient de valider son code de securite sur {BOARD_LABEL}.
 Une demande de suppression de compte attend desormais votre decision.
 
   Compte concerne      : {MEMBER_NAME}

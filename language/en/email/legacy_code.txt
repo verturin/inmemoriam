@@ -3,7 +3,7 @@ Subject: Account deletion request - security code
 Hello {LEGACY_NAME},
 
 You have been designated as the legacy contact for {MEMBER_NAME}'s account on
-"{SITENAME}". A request to delete this account has just been registered.
+"{BOARD_LABEL}". A request to delete this account has just been registered.
 
 Your security code:
 

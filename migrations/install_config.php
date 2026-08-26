@@ -6,27 +6,27 @@
  * @license GNU General Public License, version 2 (GPL-2.0)
  */
 
-namespace verturin\inmemorium\migrations;
+namespace verturin\inmemoriam\migrations;
 
 class install_config extends \phpbb\db\migration\migration
 {
 	public static function depends_on()
 	{
-		return ['\verturin\inmemorium\migrations\install_schema'];
+		return ['\verturin\inmemoriam\migrations\install_schema'];
 	}
 
 	public function effectively_installed()
 	{
-		return isset($this->config['inmemorium_enabled']);
+		return isset($this->config['inmemoriam_enabled']);
 	}
 
 	public function update_data()
 	{
 		return [
-			['config.add', ['inmemorium_enabled', 1]],
-			['config.add', ['inmemorium_default_color', '#000000']],
-			['config.add', ['inmemorium_show_death_date', 1]],
-			['config.add', ['inmemorium_show_badge', 1]],
+			['config.add', ['inmemoriam_enabled', 1]],
+			['config.add', ['inmemoriam_default_color', '#000000']],
+			['config.add', ['inmemoriam_show_death_date', 1]],
+			['config.add', ['inmemoriam_show_badge', 1]],
 		];
 	}
 }
