@@ -6,7 +6,7 @@
  * @license GNU General Public License, version 2 (GPL-2.0)
  */
 
-namespace verturin\inmemorium\acp;
+namespace verturin\inmemoriam\acp;
 
 if (!defined('IN_PHPBB'))
 {
@@ -18,28 +18,28 @@ class main_info
 	public function module()
 	{
 		return [
-			'filename' => '\verturin\inmemorium\acp\main_module',
-			'title'    => 'ACP_INMEMORIUM_TITLE',
+			'filename' => '\verturin\inmemoriam\acp\main_module',
+			'title'    => 'ACP_INMEMORIAM_TITLE',
 			'modes'    => [
 				'deceased' => [
-					'title' => 'ACP_INMEMORIUM_DECEASED',
-					'auth'  => 'ext_verturin/inmemorium && acl_a_inmemorium_manage',
-					'cat'   => ['ACP_INMEMORIUM_TITLE'],
+					'title' => 'ACP_INMEMORIAM_DECEASED',
+					'auth'  => 'ext_verturin/inmemoriam && acl_a_inmemoriam_manage',
+					'cat'   => ['ACP_INMEMORIAM_TITLE'],
 				],
 				'contacts' => [
-					'title' => 'ACP_INMEMORIUM_CONTACTS',
-					'auth'  => 'ext_verturin/inmemorium && acl_a_inmemorium_manage',
-					'cat'   => ['ACP_INMEMORIUM_TITLE'],
+					'title' => 'ACP_INMEMORIAM_CONTACTS',
+					'auth'  => 'ext_verturin/inmemoriam && acl_a_inmemoriam_manage',
+					'cat'   => ['ACP_INMEMORIAM_TITLE'],
 				],
 				'legacy' => [
-					'title' => 'ACP_INMEMORIUM_REQUESTS',
-					'auth'  => 'ext_verturin/inmemorium && acl_a_inmemorium_manage',
-					'cat'   => ['ACP_INMEMORIUM_TITLE'],
+					'title' => 'ACP_INMEMORIAM_REQUESTS',
+					'auth'  => 'ext_verturin/inmemoriam && acl_a_inmemoriam_manage',
+					'cat'   => ['ACP_INMEMORIAM_TITLE'],
 				],
 				'settings' => [
-					'title' => 'ACP_INMEMORIUM_SETTINGS',
-					'auth'  => 'ext_verturin/inmemorium && acl_a_inmemorium_manage',
-					'cat'   => ['ACP_INMEMORIUM_TITLE'],
+					'title' => 'ACP_INMEMORIAM_SETTINGS',
+					'auth'  => 'ext_verturin/inmemoriam && acl_a_inmemoriam_manage',
+					'cat'   => ['ACP_INMEMORIAM_TITLE'],
 				],
 			],
 		];

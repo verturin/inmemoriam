@@ -2,7 +2,7 @@ Subject: Demande de suppression de compte - code de securite
 
 Bonjour {LEGACY_NAME},
 
-Vous avez ete designe(e) comme legataire du compte de {MEMBER_NAME} sur "{SITENAME}".
+Vous avez ete designe(e) comme legataire du compte de {MEMBER_NAME} sur {BOARD_LABEL}.
 Une demande de suppression de ce compte vient d'etre enregistree.
 
 Votre code de securite :

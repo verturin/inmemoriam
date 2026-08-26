@@ -1,22 +1,22 @@
 services:
-    verturin.inmemorium.legacy_manager:
-        class: verturin\inmemorium\core\legacy_manager
+    verturin.inmemoriam.legacy_manager:
+        class: verturin\inmemoriam\core\legacy_manager
         arguments:
             - '@config'
             - '@dbal.conn'
             - '@user'
             - '%core.table_prefix%'
 
-    verturin.inmemorium.group_manager:
-        class: verturin\inmemorium\core\group_manager
+    verturin.inmemoriam.group_manager:
+        class: verturin\inmemoriam\core\group_manager
         arguments:
             - '@config'
             - '@dbal.conn'
             - '%core.root_path%'
             - '%core.php_ext%'
 
-    verturin.inmemorium.listener:
-        class: verturin\inmemorium\event\main_listener
+    verturin.inmemoriam.listener:
+        class: verturin\inmemoriam\event\main_listener
         arguments:
             - '@config'
             - '@dbal.conn'
@@ -27,8 +27,8 @@ services:
         tags:
             - { name: event.listener }
 
-    verturin.inmemorium.controller.legacy:
-        class: verturin\inmemorium\controller\legacy_controller
+    verturin.inmemoriam.controller.legacy:
+        class: verturin\inmemoriam\controller\legacy_controller
         arguments:
             - '@config'
             - '@dbal.conn'
@@ -37,5 +37,5 @@ services:
             - '@request'
             - '@template'
             - '@user'
-            - '@verturin.inmemorium.legacy_manager'
+            - '@verturin.inmemoriam.legacy_manager'
             - '%core.table_prefix%'

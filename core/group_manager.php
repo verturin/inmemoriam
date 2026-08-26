@@ -6,7 +6,7 @@
  * @license GNU General Public License, version 2 (GPL-2.0)
  */
 
-namespace verturin\inmemorium\core;
+namespace verturin\inmemoriam\core;
 
 if (!defined('IN_PHPBB'))
 {
@@ -54,12 +54,12 @@ class group_manager
 	 */
 	public function get_group_id()
 	{
-		if (empty($this->config['inmemorium_group_sync']))
+		if (empty($this->config['inmemoriam_group_sync']))
 		{
 			return 0;
 		}
 
-		$group_id = (int) $this->config['inmemorium_group_id'];
+		$group_id = (int) $this->config['inmemoriam_group_id'];
 
 		if (!$group_id)
 		{

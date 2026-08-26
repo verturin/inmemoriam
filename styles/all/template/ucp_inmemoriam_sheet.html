@@ -1,0 +1,241 @@
+{% include 'ucp_header.html' %}
+
+{% INCLUDEJS '@verturin_inmemoriam/js/inmemoriam_qr.js' %}
+
+{# Mise en page d'impression. Posee en ligne car phpBB injecte la feuille de
+   style de l'extension avec media="screen, projection" : un bloc @media print
+   place la-bas ne serait jamais lu. #}
+<style>
+	/* Le double de la fiche n'existe que pour l'impression. */
+	.inmemoriam-print { display: none; }
+
+	@media print {
+		/* Masquer par display et non par visibility : sinon les elements
+		   conservent la place qu'ils occupent, laissant de grands vides. */
+		body > *:not(.inmemoriam-print) { display: none !important; }
+
+		html, body {
+			background: #fff;
+			margin: 0;
+			padding: 0;
+			height: auto;
+		}
+
+		.inmemoriam-print {
+			display: block;
+			font: 11pt/1.55 Georgia, "Times New Roman", serif;
+			color: #000;
+		}
+
+		.inmemoriam-print .panel,
+		.inmemoriam-print .inner,
+		.inmemoriam-print fieldset {
+			background: none;
+			border: 0;
+			box-shadow: none;
+			margin: 0;
+			padding: 0;
+		}
+
+		.inmemoriam-print .inmemoriam-sheet-head {
+			border-bottom: 2px solid #000;
+			padding-bottom: 8pt;
+			margin-bottom: 14pt;
+		}
+
+		.inmemoriam-print .inmemoriam-sheet-head h3 {
+			font-size: 16pt;
+			letter-spacing: 1.5pt;
+			text-transform: uppercase;
+			margin: 0 0 6pt;
+			font-weight: normal;
+		}
+
+		.inmemoriam-print .inmemoriam-sheet-head p {
+			margin: 0;
+			font-style: italic;
+			font-size: 10pt;
+		}
+
+		/* Coordonnees : libelle a gauche, valeur alignee a droite. */
+		.inmemoriam-print dl {
+			display: flex;
+			margin: 0 0 5pt;
+			padding-bottom: 3pt;
+			border-bottom: 1px dotted #999;
+		}
+
+		.inmemoriam-print dt {
+			width: 45mm;
+			margin: 0;
+			font-weight: normal;
+			font-variant: small-caps;
+			letter-spacing: .5pt;
+		}
+
+		.inmemoriam-print dt strong { font-weight: normal; }
+
+		.inmemoriam-print dd {
+			margin: 0;
+			font-weight: bold;
+		}
+
+		/* Code et QR cote a cote. */
+		.inmemoriam-print .inmemoriam-sheet-body {
+			display: flex;
+			align-items: center;
+			gap: 12mm;
+			margin: 16pt 0;
+			padding: 10pt 0;
+			border-top: 1px solid #000;
+			border-bottom: 1px solid #000;
+		}
+
+		.inmemoriam-print .inmemoriam-sheet-key { flex: 1; }
+
+		.inmemoriam-print .inmemoriam-label {
+			display: block;
+			font-variant: small-caps;
+			letter-spacing: 1pt;
+			margin-bottom: 5pt;
+		}
+
+		.inmemoriam-print .inmemoriam-key {
+			display: block;
+			padding: 7pt 9pt;
+			border: 1.5pt solid #000;
+			background: none;
+			font-family: "Courier New", monospace;
+			font-size: 14pt;
+			font-weight: bold;
+			letter-spacing: 1.5pt;
+			text-align: center;
+		}
+
+		.inmemoriam-print .inmemoriam-sheet-qr { text-align: center; }
+
+		.inmemoriam-print .inmemoriam-sheet-qr img {
+			width: 42mm;
+			height: 42mm;
+			image-rendering: pixelated;
+		}
+
+		.inmemoriam-print .inmemoriam-hint {
+			font-size: 9pt;
+			font-style: italic;
+			margin: 5pt 0 0;
+			opacity: 1;
+			color: #333;
+		}
+
+		.inmemoriam-print .inmemoriam-sheet-steps {
+			border: 0;
+			margin-top: 12pt;
+			padding-top: 0;
+		}
+
+		.inmemoriam-print .inmemoriam-sheet-steps strong {
+			display: block;
+			font-variant: small-caps;
+			letter-spacing: 1pt;
+			font-weight: normal;
+			border-bottom: 1px solid #000;
+			padding-bottom: 3pt;
+			margin-bottom: 6pt;
+		}
+
+		.inmemoriam-print .inmemoriam-sheet-steps ol {
+			margin: 0 0 0 14pt;
+			padding: 0;
+		}
+
+		.inmemoriam-print .inmemoriam-sheet-steps li {
+			margin-bottom: 4pt;
+			padding-left: 3pt;
+		}
+
+		.inmemoriam-print .inmemoriam-qr-fallback {
+			font-size: 8pt;
+			word-break: break-all;
+		}
+
+		@page { margin: 18mm 16mm; }
+	}
+</style>
+
+<h2>{{ lang('UCP_INMEMORIAM_SHEET_TITLE') }}</h2>
+
+<div class="panel inmemoriam-noprint">
+	<div class="inner">
+		<div class="rules">
+			<div class="inner">
+				<strong>{{ lang('UCP_INMEMORIAM_SHEET_ONCE') }}</strong>
+				<p>{{ lang('UCP_INMEMORIAM_SHEET_ONCE_EXPLAIN') }}</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="panel inmemoriam-sheet">
+	<div class="inner">
+
+		<div class="inmemoriam-sheet-head">
+			<h3>{{ lang('UCP_INMEMORIAM_SHEET_HEADING') }}</h3>
+			<p>{{ lang('UCP_INMEMORIAM_SHEET_INTRO', BOARD_LABEL) }}</p>
+		</div>
+
+		<fieldset class="fields2">
+			<dl>
+				<dt><strong>{{ lang('UCP_INMEMORIAM_SHEET_FOR') }}{{ lang('COLON') }}</strong></dt>
+				<dd>{{ LEGACY_NAME }}</dd>
+			</dl>
+			<dl>
+				<dt><strong>{{ lang('UCP_INMEMORIAM_EMAIL') }}{{ lang('COLON') }}</strong></dt>
+				<dd>{{ LEGACY_EMAIL }}</dd>
+			</dl>
+			<dl>
+				<dt><strong>{{ lang('UCP_INMEMORIAM_SHEET_MEMBER') }}{{ lang('COLON') }}</strong></dt>
+				<dd>{{ MEMBER_NAME }}</dd>
+			</dl>
+		</fieldset>
+
+		<div class="inmemoriam-sheet-body">
+			<div class="inmemoriam-sheet-key">
+				<span class="inmemoriam-label">{{ lang('UCP_INMEMORIAM_SHEET_CODE') }}</span>
+				<code class="inmemoriam-key">{{ ACTIVATION_CODE }}</code>
+				<p class="inmemoriam-hint">{{ lang('UCP_INMEMORIAM_SHEET_CODE_EXPLAIN') }}</p>
+			</div>
+
+			<div class="inmemoriam-sheet-qr">
+				<div data-inmemoriam-qr="{{ SHEET_URL }}" data-size="220"
+				     data-alt="{{ lang('UCP_INMEMORIAM_SHEET_QR_ALT') }}">
+					<span class="inmemoriam-qr-fallback">{{ SHEET_URL }}</span>
+				</div>
+				<p class="inmemoriam-hint">{{ lang('UCP_INMEMORIAM_SHEET_QR') }}</p>
+			</div>
+		</div>
+
+		<div class="inmemoriam-sheet-steps">
+			<strong>{{ lang('UCP_INMEMORIAM_SHEET_STEPS') }}</strong>
+			<ol>
+				<li>{{ lang('UCP_INMEMORIAM_SHEET_STEP1') }}</li>
+				<li>{{ lang('UCP_INMEMORIAM_SHEET_STEP2') }}</li>
+				<li>{{ lang('UCP_INMEMORIAM_SHEET_STEP3') }}</li>
+				<li>{{ lang('UCP_INMEMORIAM_SHEET_STEP4') }}</li>
+			</ol>
+		</div>
+
+	</div>
+</div>
+
+<div class="panel inmemoriam-noprint">
+	<div class="inner">
+		<fieldset class="submit-buttons">
+			<a href="#" class="button1" data-inmemoriam-print="1">{{ lang('UCP_INMEMORIAM_SHEET_PRINT') }}</a>
+			<a href="{{ U_BACK }}" class="button2">{{ lang('UCP_INMEMORIAM_SHEET_BACK') }}</a>
+		</fieldset>
+		<p class="inmemoriam-hint">{{ lang('UCP_INMEMORIAM_SHEET_PDF') }}</p>
+	</div>
+</div>
+
+{% include 'ucp_footer.html' %}

@@ -6,13 +6,13 @@
  * @license GNU General Public License, version 2 (GPL-2.0)
  */
 
-namespace verturin\inmemorium\migrations;
+namespace verturin\inmemoriam\migrations;
 
 class install_ucp_menu extends \phpbb\db\migration\migration
 {
 	public static function depends_on()
 	{
-		return ['\verturin\inmemorium\migrations\install_group'];
+		return ['\verturin\inmemoriam\migrations\install_group'];
 	}
 
 	public function update_data()
@@ -25,7 +25,7 @@ class install_ucp_menu extends \phpbb\db\migration\migration
 				'ucp',
 				'UCP_PROFILE',
 				[
-					'module_basename' => '\verturin\inmemorium\ucp\main_module',
+					'module_basename' => '\verturin\inmemoriam\ucp\main_module',
 					'modes'           => ['legacy'],
 				],
 			]],
@@ -34,20 +34,20 @@ class install_ucp_menu extends \phpbb\db\migration\migration
 			['module.add', [
 				'ucp',
 				0,
-				'UCP_INMEMORIUM',
+				'UCP_INMEMORIAM',
 			]],
 
 			// Le module, range dans cette nouvelle categorie.
 			['module.add', [
 				'ucp',
-				'UCP_INMEMORIUM',
+				'UCP_INMEMORIAM',
 				[
-					'module_basename' => '\verturin\inmemorium\ucp\main_module',
+					'module_basename' => '\verturin\inmemoriam\ucp\main_module',
 					'modes'           => ['legacy'],
 				],
 			]],
 
-			['config.add', ['inmemorium_notify_admin', 1]],
+			['config.add', ['inmemoriam_notify_admin', 1]],
 		];
 	}
 }

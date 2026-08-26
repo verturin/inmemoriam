@@ -6,7 +6,7 @@
  * @license GNU General Public License, version 2 (GPL-2.0)
  */
 
-namespace verturin\inmemorium\event;
+namespace verturin\inmemoriam\event;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -47,7 +47,7 @@ class main_listener implements EventSubscriberInterface
 		$this->language       = $language;
 		$this->template       = $template;
 		$this->user           = $user;
-		$this->table_deceased = $table_prefix . 'inmemorium_deceased';
+		$this->table_deceased = $table_prefix . 'inmemoriam_deceased';
 	}
 
 	public static function getSubscribedEvents()
@@ -71,7 +71,7 @@ class main_listener implements EventSubscriberInterface
 	{
 		$lang_set_ext = $event['lang_set_ext'];
 		$lang_set_ext[] = [
-			'ext_name' => 'verturin/inmemorium',
+			'ext_name' => 'verturin/inmemoriam',
 			'lang_set' => 'common',
 		];
 		$event['lang_set_ext'] = $lang_set_ext;
@@ -83,7 +83,7 @@ class main_listener implements EventSubscriberInterface
 	public function add_permission($event)
 	{
 		$permissions = $event['permissions'];
-		$permissions['a_inmemorium_manage'] = ['lang' => 'ACL_A_INMEMORIUM_MANAGE', 'cat' => 'misc'];
+		$permissions['a_inmemoriam_manage'] = ['lang' => 'ACL_A_INMEMORIAM_MANAGE', 'cat' => 'misc'];
 		$event['permissions'] = $permissions;
 	}
 
@@ -92,7 +92,7 @@ class main_listener implements EventSubscriberInterface
 	 */
 	public function profile_banner($event)
 	{
-		if (empty($this->config['inmemorium_enabled']))
+		if (empty($this->config['inmemoriam_enabled']))
 		{
 			return;
 		}
@@ -105,12 +105,12 @@ class main_listener implements EventSubscriberInterface
 		}
 
 		$this->template->assign_vars([
-			'INMEMORIUM_SHOW'       => true,
-			'INMEMORIUM_COLOR'      => $row['banner_color'],
-			'INMEMORIUM_TEXT'       => $row['memorial_text'] !== ''
+			'INMEMORIAM_SHOW'       => true,
+			'INMEMORIAM_COLOR'      => $row['banner_color'],
+			'INMEMORIAM_TEXT'       => $row['memorial_text'] !== ''
 				? $row['memorial_text']
-				: $this->language->lang('INMEMORIUM_DEFAULT_TEXT'),
-			'INMEMORIUM_DEATH_DATE' => (!empty($this->config['inmemorium_show_death_date']) && $row['death_date'])
+				: $this->language->lang('INMEMORIAM_DEFAULT_TEXT'),
+			'INMEMORIAM_DEATH_DATE' => (!empty($this->config['inmemoriam_show_death_date']) && $row['death_date'])
 				? $this->user->format_date($row['death_date'], 'd/m/Y')
 				: '',
 		]);
@@ -121,7 +121,7 @@ class main_listener implements EventSubscriberInterface
 	 */
 	public function post_badge($event)
 	{
-		if (empty($this->config['inmemorium_enabled']) || empty($this->config['inmemorium_show_badge']))
+		if (empty($this->config['inmemoriam_enabled']) || empty($this->config['inmemoriam_show_badge']))
 		{
 			return;
 		}
@@ -132,9 +132,9 @@ class main_listener implements EventSubscriberInterface
 		$deceased = $this->get_deceased((int) $row['user_id']);
 
 		$post_row = $event['post_row'];
-		$post_row['INMEMORIUM_BADGE'] = (bool) $deceased;
-		$post_row['INMEMORIUM_BADGE_TEXT'] = $deceased
-			? $this->language->lang('INMEMORIUM_TITLE')
+		$post_row['INMEMORIAM_BADGE'] = (bool) $deceased;
+		$post_row['INMEMORIAM_BADGE_TEXT'] = $deceased
+			? $this->language->lang('INMEMORIAM_TITLE')
 			: '';
 		$event['post_row'] = $post_row;
 	}

@@ -17,17 +17,21 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, [
-	'INMEMORIUM_TITLE'        => 'In Memoriam',
-	'INMEMORIUM_DEFAULT_TEXT' => 'In memory of a valued member of our community.',
-	'INMEMORIUM_DEATH_DATE'   => 'Passed away on %s',
+	'INMEMORIAM_TITLE'        => 'In Memoriam',
+	'INMEMORIAM_DEFAULT_TEXT' => 'In memory of a valued member of our community.',
+	'INMEMORIAM_DEATH_DATE'   => 'Passed away on %s',
 
 	// Titres des modules : lus lors de la construction des menus,
 	// donc charges globalement via l'evenement core.user_setup.
-	'ACP_INMEMORIUM_TITLE'      => 'In Memoriam',
-	'ACP_INMEMORIUM_DECEASED'   => 'Memorialised members',
-	'ACP_INMEMORIUM_REQUESTS'   => 'Deletion requests',
-	'ACP_INMEMORIUM_SETTINGS'   => 'Settings',
-	'UCP_INMEMORIUM'            => 'In Memoriam',
-	'UCP_INMEMORIUM_LEGACY'     => 'Legacy contact',
-	'ACP_INMEMORIUM_CONTACTS'   => 'Legacy contacts',
+	'ACP_INMEMORIAM_TITLE'      => 'In Memoriam',
+	'ACP_INMEMORIAM_DECEASED'   => 'Memorialised members',
+	'ACP_INMEMORIAM_REQUESTS'   => 'Deletion requests',
+	'ACP_INMEMORIAM_SETTINGS'   => 'Settings',
+	'UCP_INMEMORIAM'            => 'In Memoriam',
+	'UCP_INMEMORIAM_LEGACY'     => 'Legacy contact',
+	'ACP_INMEMORIAM_CONTACTS'   => 'Legacy contacts',
+	'INMEMORIAM_WISH_NOW'   => 'Delete everything immediately',
+	'INMEMORIAM_WISH_DELAY' => 'Delete everything after %d months',
+	'INMEMORIAM_WISH_BOARD' => 'Keep the account under the board rules',
+	'INMEMORIAM_ANON_DEFAULT' => 'an online board',
 ]);

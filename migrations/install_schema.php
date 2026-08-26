@@ -6,7 +6,7 @@
  * @license GNU General Public License, version 2 (GPL-2.0)
  */
 
-namespace verturin\inmemorium\migrations;
+namespace verturin\inmemoriam\migrations;
 
 class install_schema extends \phpbb\db\migration\migration
 {
@@ -16,14 +16,14 @@ class install_schema extends \phpbb\db\migration\migration
 
 	public function effectively_installed()
 	{
-		return $this->db_tools->sql_table_exists($this->table_prefix . 'inmemorium_deceased');
+		return $this->db_tools->sql_table_exists($this->table_prefix . 'inmemoriam_deceased');
 	}
 
 	public function update_schema()
 	{
 		return [
 			'add_tables' => [
-				$this->table_prefix . 'inmemorium_deceased' => [
+				$this->table_prefix . 'inmemoriam_deceased' => [
 					'COLUMNS' => [
 						'deceased_id'   => ['UINT', null, 'auto_increment'],
 						'user_id'       => ['UINT', 0],
@@ -39,7 +39,7 @@ class install_schema extends \phpbb\db\migration\migration
 					],
 				],
 
-				$this->table_prefix . 'inmemorium_logs' => [
+				$this->table_prefix . 'inmemoriam_logs' => [
 					'COLUMNS' => [
 						'log_id'       => ['UINT', null, 'auto_increment'],
 						'user_id'      => ['UINT', 0],
@@ -63,8 +63,8 @@ class install_schema extends \phpbb\db\migration\migration
 	{
 		return [
 			'drop_tables' => [
-				$this->table_prefix . 'inmemorium_deceased',
-				$this->table_prefix . 'inmemorium_logs',
+				$this->table_prefix . 'inmemoriam_deceased',
+				$this->table_prefix . 'inmemoriam_logs',
 			],
 		];
 	}

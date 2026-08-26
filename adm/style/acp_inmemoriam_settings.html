@@ -1,0 +1,164 @@
+{% include 'overall_header.html' %}
+
+<h1>{{ lang('ACP_INMEMORIAM_SETTINGS') }}</h1>
+
+<p>{{ lang('ACP_INMEMORIAM_SETTINGS_EXPLAIN') }}</p>
+
+<form id="inmemoriam_settings" method="post" action="{{ U_ACTION }}">
+<fieldset>
+	<legend>{{ lang('ACP_INMEMORIAM_SETTINGS') }}</legend>
+
+	<dl>
+		<dt>
+			<label for="inmemoriam_enabled">{{ lang('ACP_INMEMORIAM_ENABLE') }}{{ lang('COLON') }}</label>
+			<span>{{ lang('ACP_INMEMORIAM_ENABLE_EXPLAIN') }}</span>
+		</dt>
+		<dd>
+			<label><input type="radio" class="radio" name="inmemoriam_enabled" value="1"{% if INMEMORIAM_ENABLED %} checked{% endif %}> {{ lang('YES') }}</label>
+			<label><input type="radio" class="radio" name="inmemoriam_enabled" value="0"{% if not INMEMORIAM_ENABLED %} checked{% endif %}> {{ lang('NO') }}</label>
+		</dd>
+	</dl>
+
+	<dl>
+		<dt>
+			<label for="inmemoriam_default_color">{{ lang('ACP_INMEMORIAM_DEFAULT_COLOR') }}{{ lang('COLON') }}</label>
+			<span>{{ lang('ACP_INMEMORIAM_DEFAULT_COLOR_EXPLAIN') }}</span>
+		</dt>
+		<dd><input type="color" id="inmemoriam_default_color" name="inmemoriam_default_color" value="{{ INMEMORIAM_DEFAULT_COLOR }}"></dd>
+	</dl>
+
+	<dl>
+		<dt>
+			<label for="inmemoriam_show_death_date">{{ lang('ACP_INMEMORIAM_SHOW_DEATH_DATE') }}{{ lang('COLON') }}</label>
+			<span>{{ lang('ACP_INMEMORIAM_SHOW_DEATH_DATE_EXPLAIN') }}</span>
+		</dt>
+		<dd>
+			<label><input type="radio" class="radio" name="inmemoriam_show_death_date" value="1"{% if INMEMORIAM_SHOW_DEATH_DATE %} checked{% endif %}> {{ lang('YES') }}</label>
+			<label><input type="radio" class="radio" name="inmemoriam_show_death_date" value="0"{% if not INMEMORIAM_SHOW_DEATH_DATE %} checked{% endif %}> {{ lang('NO') }}</label>
+		</dd>
+	</dl>
+
+	<dl>
+		<dt>
+			<label for="inmemoriam_show_badge">{{ lang('ACP_INMEMORIAM_SHOW_BADGE') }}{{ lang('COLON') }}</label>
+			<span>{{ lang('ACP_INMEMORIAM_SHOW_BADGE_EXPLAIN') }}</span>
+		</dt>
+		<dd>
+			<label><input type="radio" class="radio" name="inmemoriam_show_badge" value="1"{% if INMEMORIAM_SHOW_BADGE %} checked{% endif %}> {{ lang('YES') }}</label>
+			<label><input type="radio" class="radio" name="inmemoriam_show_badge" value="0"{% if not INMEMORIAM_SHOW_BADGE %} checked{% endif %}> {{ lang('NO') }}</label>
+		</dd>
+	</dl>
+
+</fieldset>
+
+<fieldset>
+	<legend>{{ lang('ACP_INMEMORIAM_REQUESTS') }}</legend>
+
+	<dl>
+		<dt>
+			<label for="inmemoriam_legacy_enabled">{{ lang('ACP_INMEMORIAM_LEGACY_ENABLE') }}{{ lang('COLON') }}</label>
+			<span>{{ lang('ACP_INMEMORIAM_LEGACY_ENABLE_EXPLAIN') }}</span>
+		</dt>
+		<dd>
+			<label><input type="radio" class="radio" name="inmemoriam_legacy_enabled" value="1"{% if INMEMORIAM_LEGACY_ENABLED %} checked{% endif %}> {{ lang('YES') }}</label>
+			<label><input type="radio" class="radio" name="inmemoriam_legacy_enabled" value="0"{% if not INMEMORIAM_LEGACY_ENABLED %} checked{% endif %}> {{ lang('NO') }}</label>
+		</dd>
+	</dl>
+
+	<dl>
+		<dt>
+			<label for="inmemoriam_request_expire">{{ lang('ACP_INMEMORIAM_EXPIRE') }}{{ lang('COLON') }}</label>
+			<span>{{ lang('ACP_INMEMORIAM_EXPIRE_EXPLAIN') }}</span>
+		</dt>
+		<dd><input type="number" id="inmemoriam_request_expire" name="inmemoriam_request_expire" value="{{ INMEMORIAM_EXPIRE }}" min="1" max="365" class="inputbox narrow"></dd>
+	</dl>
+
+	<dl>
+		<dt>
+			<label for="inmemoriam_max_attempts">{{ lang('ACP_INMEMORIAM_MAX_ATTEMPTS') }}{{ lang('COLON') }}</label>
+			<span>{{ lang('ACP_INMEMORIAM_MAX_ATTEMPTS_EXPLAIN') }}</span>
+		</dt>
+		<dd><input type="number" id="inmemoriam_max_attempts" name="inmemoriam_max_attempts" value="{{ INMEMORIAM_MAX_ATTEMPTS }}" min="1" max="20" class="inputbox narrow"></dd>
+	</dl>
+
+	<dl>
+		<dt>
+			<label for="inmemoriam_notify_admin">{{ lang('ACP_INMEMORIAM_NOTIFY_ADMIN') }}{{ lang('COLON') }}</label>
+			<span>{{ lang('ACP_INMEMORIAM_NOTIFY_ADMIN_EXPLAIN') }}</span>
+		</dt>
+		<dd>
+			<label><input type="radio" class="radio" name="inmemoriam_notify_admin" value="1"{% if INMEMORIAM_NOTIFY_ADMIN %} checked{% endif %}> {{ lang('YES') }}</label>
+			<label><input type="radio" class="radio" name="inmemoriam_notify_admin" value="0"{% if not INMEMORIAM_NOTIFY_ADMIN %} checked{% endif %}> {{ lang('NO') }}</label>
+		</dd>
+	</dl>
+
+	<dl>
+		<dt>
+			<label for="inmemoriam_notify_pm">{{ lang('ACP_INMEMORIAM_NOTIFY_PM') }}{{ lang('COLON') }}</label>
+			<span>{{ lang('ACP_INMEMORIAM_NOTIFY_PM_EXPLAIN') }}</span>
+		</dt>
+		<dd>
+			<label><input type="radio" class="radio" name="inmemoriam_notify_pm" value="1"{% if INMEMORIAM_NOTIFY_PM %} checked{% endif %}> {{ lang('YES') }}</label>
+			<label><input type="radio" class="radio" name="inmemoriam_notify_pm" value="0"{% if not INMEMORIAM_NOTIFY_PM %} checked{% endif %}> {{ lang('NO') }}</label>
+		</dd>
+	</dl>
+
+	<dl>
+		<dt>
+			<label for="inmemoriam_notify_legacy">{{ lang('ACP_INMEMORIAM_NOTIFY_LEGACY') }}{{ lang('COLON') }}</label>
+			<span>{{ lang('ACP_INMEMORIAM_NOTIFY_LEGACY_EXPLAIN') }}</span>
+		</dt>
+		<dd>
+			<label><input type="radio" class="radio" name="inmemoriam_notify_legacy" value="1"{% if INMEMORIAM_NOTIFY_LEGACY %} checked{% endif %}> {{ lang('YES') }}</label>
+			<label><input type="radio" class="radio" name="inmemoriam_notify_legacy" value="0"{% if not INMEMORIAM_NOTIFY_LEGACY %} checked{% endif %}> {{ lang('NO') }}</label>
+		</dd>
+	</dl>
+</fieldset>
+
+<fieldset>
+	<legend>{{ lang('ACP_INMEMORIAM_ANON') }}</legend>
+
+	<dl>
+		<dt>
+			<label for="inmemoriam_anon_site">{{ lang('ACP_INMEMORIAM_ANON_SITE') }}{{ lang('COLON') }}</label>
+			<span>{{ lang('ACP_INMEMORIAM_ANON_SITE_EXPLAIN') }}</span>
+		</dt>
+		<dd>
+			<label><input type="radio" class="radio" name="inmemoriam_anon_site" value="1"{% if INMEMORIAM_ANON_SITE %} checked{% endif %}> {{ lang('YES') }}</label>
+			<label><input type="radio" class="radio" name="inmemoriam_anon_site" value="0"{% if not INMEMORIAM_ANON_SITE %} checked{% endif %}> {{ lang('NO') }}</label>
+		</dd>
+	</dl>
+
+	<dl>
+		<dt>
+			<label for="inmemoriam_anon_label">{{ lang('ACP_INMEMORIAM_ANON_LABEL') }}{{ lang('COLON') }}</label>
+			<span>{{ lang('ACP_INMEMORIAM_ANON_LABEL_EXPLAIN') }}</span>
+		</dt>
+		<dd><input type="text" id="inmemoriam_anon_label" name="inmemoriam_anon_label" maxlength="100" value="{{ INMEMORIAM_ANON_LABEL }}" class="inputbox"></dd>
+	</dl>
+</fieldset>
+
+<fieldset>
+	<legend>{{ lang('ACP_INMEMORIAM_GROUP') }}</legend>
+
+	<dl>
+		<dt>
+			<label for="inmemoriam_group_sync">{{ lang('ACP_INMEMORIAM_GROUP_SYNC') }}{{ lang('COLON') }}</label>
+			<span>{{ lang('ACP_INMEMORIAM_GROUP_SYNC_EXPLAIN') }}</span>
+		</dt>
+		<dd>
+			<label><input type="radio" class="radio" name="inmemoriam_group_sync" value="1"{% if INMEMORIAM_GROUP_SYNC %} checked{% endif %}> {{ lang('YES') }}</label>
+			<label><input type="radio" class="radio" name="inmemoriam_group_sync" value="0"{% if not INMEMORIAM_GROUP_SYNC %} checked{% endif %}> {{ lang('NO') }}</label>
+		</dd>
+	</dl>
+
+	<p class="submit-buttons">
+		<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}">
+		<input class="button2" type="reset" value="{{ lang('RESET') }}">
+	</p>
+
+	{{ S_FORM_TOKEN }}
+</fieldset>
+</form>
+
+{% include 'overall_footer.html' %}

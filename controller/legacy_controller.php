@@ -6,7 +6,7 @@
  * @license GNU General Public License, version 2 (GPL-2.0)
  */
 
-namespace verturin\inmemorium\controller;
+namespace verturin\inmemoriam\controller;
 
 use Symfony\Component\HttpFoundation\Response;
 
@@ -33,7 +33,7 @@ class legacy_controller
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var \verturin\inmemorium\core\legacy_manager */
+	/** @var \verturin\inmemoriam\core\legacy_manager */
 	protected $manager;
 
 	/** @var string */
@@ -47,7 +47,7 @@ class legacy_controller
 		\phpbb\request\request $request,
 		\phpbb\template\template $template,
 		\phpbb\user $user,
-		\verturin\inmemorium\core\legacy_manager $manager,
+		\verturin\inmemoriam\core\legacy_manager $manager,
 		$table_prefix
 	)
 	{
@@ -59,39 +59,44 @@ class legacy_controller
 		$this->template     = $template;
 		$this->user         = $user;
 		$this->manager      = $manager;
-		$this->table_legacy = $table_prefix . 'inmemorium_legacy';
+		$this->table_legacy = $table_prefix . 'inmemoriam_legacy';
 	}
 
 	/**
 	 * Formulaire public de demande de suppression.
 	 */
-	public function request_page()
+	public function request_page($token = '')
 	{
-		$this->language->add_lang('common', 'verturin/inmemorium');
-		$this->language->add_lang('legacy_inmemorium', 'verturin/inmemorium');
+		$this->language->add_lang('common', 'verturin/inmemoriam');
+		$this->language->add_lang('legacy_inmemoriam', 'verturin/inmemoriam');
 
-		if (empty($this->config['inmemorium_legacy_enabled']))
+		if (empty($this->config['inmemoriam_legacy_enabled']))
 		{
-			throw new \phpbb\exception\http_exception(404, 'INMEMORIUM_LG_DISABLED');
+			throw new \phpbb\exception\http_exception(404, 'INMEMORIAM_LG_DISABLED');
 		}
 
-		add_form_key('inmemorium_request');
+		add_form_key('inmemoriam_request');
 
 		$error = '';
 		$sent  = false;
 
+		// Jeton de la fiche : il prerempli le formulaire, sans dispenser
+		// de saisir le code d'activation imprime sur cette meme fiche.
+		$prefill = $token !== '' ? $this->manager->get_by_sheet_token($token) : false;
+
 		if ($this->request->is_set_post('submit'))
 		{
-			if (!check_form_key('inmemorium_request'))
+			if (!check_form_key('inmemoriam_request'))
 			{
 				$error = $this->language->lang('FORM_INVALID');
 			}
 			else
 			{
-				$username = $this->request->variable('username', '', true);
-				$email    = strtolower(trim($this->request->variable('legacy_email', '')));
+				$username   = $this->request->variable('username', '', true);
+				$email      = strtolower(trim($this->request->variable('legacy_email', '')));
+				$activation = $this->request->variable('activation_code', '');
 
-				$sql = 'SELECT l.user_id, l.legacy_name, l.legacy_email, u.username
+				$sql = 'SELECT l.*, u.username
 					FROM ' . $this->table_legacy . ' l
 					INNER JOIN ' . USERS_TABLE . " u ON (l.user_id = u.user_id)
 					WHERE u.username_clean = '" . $this->db->sql_escape(utf8_clean_string($username)) . "'";
@@ -101,10 +106,22 @@ class legacy_controller
 
 				// Reponse volontairement identique en cas de succes ou d'echec :
 				// on n'indique jamais si un legataire est enregistre pour ce membre.
-				if ($row && hash_equals(strtolower($row['legacy_email']), $email))
+				// Trois elements doivent concorder : le membre, l'adresse
+				// enregistree, et le code transmis lors de la designation.
+				if ($row
+					&& hash_equals(strtolower($row['legacy_email']), $email)
+					&& $this->manager->verify_activation($row, $activation))
 				{
 					$data = $this->manager->create_request((int) $row['user_id'], $email);
 					$this->send_code_email($row, $data);
+
+					// L'administration est prevenue des le depot : elle sait
+					// ainsi qu'une procedure est engagee, sans attendre que
+					// la personne legataire ait saisi son code.
+					$this->notify_admin_pm([
+						'user_id'      => (int) $row['user_id'],
+						'legacy_email' => $email,
+					], 'STARTED');
 				}
 
 				$sent = true;
@@ -112,12 +129,16 @@ class legacy_controller
 		}
 
 		$this->template->assign_vars([
-			'ERROR'    => $error,
-			'S_SENT'   => $sent,
-			'S_ACTION' => $this->helper->route('inmemorium_legacy_request'),
+			'ERROR'         => $error,
+			'S_SENT'        => $sent,
+			'PREFILL_USER'  => $prefill ? $prefill['username'] : '',
+			'PREFILL_EMAIL' => $prefill ? $prefill['legacy_email'] : '',
+			'S_ACTION'      => $token !== ''
+				? $this->helper->route('inmemoriam_legacy_request_token', ['token' => $token])
+				: $this->helper->route('inmemoriam_legacy_request'),
 		]);
 
-		return $this->helper->render('inmemorium_request.html', $this->language->lang('INMEMORIUM_LG_REQUEST_TITLE'));
+		return $this->helper->render('inmemoriam_request.html', $this->language->lang('INMEMORIAM_LG_REQUEST_TITLE'));
 	}
 
 	/**
@@ -125,17 +146,17 @@ class legacy_controller
 	 */
 	public function validate_page($token)
 	{
-		$this->language->add_lang('common', 'verturin/inmemorium');
-		$this->language->add_lang('legacy_inmemorium', 'verturin/inmemorium');
+		$this->language->add_lang('common', 'verturin/inmemoriam');
+		$this->language->add_lang('legacy_inmemoriam', 'verturin/inmemoriam');
 
 		$req = $this->manager->get_request_by_token($token);
 
 		if (!$req)
 		{
-			throw new \phpbb\exception\http_exception(404, 'INMEMORIUM_LG_BAD_TOKEN');
+			throw new \phpbb\exception\http_exception(404, 'INMEMORIAM_LG_BAD_TOKEN');
 		}
 
-		add_form_key('inmemorium_validate');
+		add_form_key('inmemoriam_validate');
 
 		$error     = '';
 		$validated = ($req['request_status'] === 'validated');
@@ -143,7 +164,7 @@ class legacy_controller
 
 		if (!$validated && $this->request->is_set_post('submit'))
 		{
-			if (!check_form_key('inmemorium_validate'))
+			if (!check_form_key('inmemoriam_validate'))
 			{
 				$error = $this->language->lang('FORM_INVALID');
 			}
@@ -162,23 +183,23 @@ class legacy_controller
 						// une decision : sans cela, elle resterait invisible.
 						// Deux canaux, car un courriel peut se perdre.
 						$this->notify_admin($req);
-						$this->notify_admin_pm($req);
+						$this->notify_admin_pm($req, 'PENDING');
 					break;
 
 					case 'expired':
-						$error = $this->language->lang('INMEMORIUM_LG_EXPIRED');
+						$error = $this->language->lang('INMEMORIAM_LG_EXPIRED');
 					break;
 
 					case 'locked':
-						$error = $this->language->lang('INMEMORIUM_LG_LOCKED');
+						$error = $this->language->lang('INMEMORIAM_LG_LOCKED');
 					break;
 
 					case 'closed':
-						$error = $this->language->lang('INMEMORIUM_LG_CLOSED');
+						$error = $this->language->lang('INMEMORIAM_LG_CLOSED');
 					break;
 
 					default:
-						$error = $this->language->lang('INMEMORIUM_LG_BAD_CODE');
+						$error = $this->language->lang('INMEMORIAM_LG_BAD_CODE');
 					break;
 				}
 			}
@@ -194,7 +215,7 @@ class legacy_controller
 		// $is_amp a false : l'adresse part dans un QR code et dans un courriel,
 		// les esperluettes ne doivent pas etre encodees en HTML.
 		$page_url = generate_board_url() . '/' . ltrim(
-			$this->helper->route('inmemorium_legacy_validate', ['token' => $token], false),
+			$this->helper->route('inmemoriam_legacy_validate', ['token' => $token], false),
 			'/'
 		);
 
@@ -217,10 +238,10 @@ class legacy_controller
 			'MEMBER_NAME'  => $member,
 			'VALIDATED_ON' => $validated ? $this->user->format_date(time()) : '',
 			'PAGE_URL'     => $page_url,
-			'S_ACTION'     => $this->helper->route('inmemorium_legacy_validate', ['token' => $token]),
+			'S_ACTION'     => $this->helper->route('inmemoriam_legacy_validate', ['token' => $token]),
 		]);
 
-		return $this->helper->render('inmemorium_validate.html', $this->language->lang('INMEMORIUM_LG_VALIDATE_TITLE'));
+		return $this->helper->render('inmemoriam_validate.html', $this->language->lang('INMEMORIAM_LG_VALIDATE_TITLE'));
 	}
 
 	/**
@@ -234,20 +255,21 @@ class legacy_controller
 		}
 
 		$url = generate_board_url() . '/' . ltrim(
-			$this->helper->route('inmemorium_legacy_validate', ['token' => $data['token']], false),
+			$this->helper->route('inmemoriam_legacy_validate', ['token' => $data['token']], false),
 			'/'
 		);
 
 		$messenger = new \messenger(false);
-		$messenger->template('@verturin_inmemorium/legacy_code', $this->config['default_lang']);
+		$messenger->template('@verturin_inmemoriam/legacy_code', $this->config['default_lang']);
 		$messenger->to($row['legacy_email'], $row['legacy_name']);
 		$messenger->anti_abuse_headers($this->config, $this->user);
 		$messenger->assign_vars([
 			'LEGACY_NAME'   => htmlspecialchars_decode($row['legacy_name']),
 			'MEMBER_NAME'   => htmlspecialchars_decode($row['username']),
+			'BOARD_LABEL'   => $this->manager->board_label($this->language),
 			'SECURITY_CODE' => $data['code'],
 			'VALIDATE_URL'  => $url,
-			'EXPIRE_DAYS'   => (int) $this->config['inmemorium_request_expire'],
+			'EXPIRE_DAYS'   => (int) $this->config['inmemoriam_request_expire'],
 		]);
 		$messenger->send(NOTIFY_EMAIL);
 	}
@@ -261,7 +283,7 @@ class legacy_controller
 	 */
 	protected function notify_admin($req)
 	{
-		if (empty($this->config['inmemorium_notify_admin']))
+		if (empty($this->config['inmemoriam_notify_admin']))
 		{
 			return;
 		}
@@ -287,10 +309,11 @@ class legacy_controller
 		}
 
 		$messenger = new \messenger(false);
-		$messenger->template('@verturin_inmemorium/legacy_pending_admin', $this->config['default_lang']);
+		$messenger->template('@verturin_inmemoriam/legacy_pending_admin', $this->config['default_lang']);
 		$messenger->to($to);
 		$messenger->anti_abuse_headers($this->config, $this->user);
 		$messenger->assign_vars([
+			'BOARD_LABEL'  => $this->manager->board_label($this->language),
 			'MEMBER_NAME'  => $row ? htmlspecialchars_decode($row['username']) : '#' . (int) $req['user_id'],
 			'LEGACY_EMAIL' => $req['legacy_email'],
 			'VALIDATED_ON' => $this->user->format_date(time()),
@@ -306,9 +329,9 @@ class legacy_controller
 	 * Le message prive touche tous les administrateurs et reste visible dans
 	 * le forum jusqu'a sa lecture.
 	 */
-	protected function notify_admin_pm($req)
+	protected function notify_admin_pm($req, $type = 'PENDING')
 	{
-		if (empty($this->config['inmemorium_notify_pm']))
+		if (empty($this->config['inmemoriam_notify_pm']))
 		{
 			return;
 		}
@@ -344,7 +367,7 @@ class legacy_controller
 		$acp_url = generate_board_url() . '/adm/index.' . $GLOBALS['phpEx'];
 
 		$message = $this->language->lang(
-			'INMEMORIUM_PM_BODY',
+			'INMEMORIAM_PM_' . $type . '_BODY',
 			$member ? $member['username'] : '#' . (int) $req['user_id'],
 			$req['legacy_email'],
 			$this->user->format_date(time()),
@@ -386,7 +409,7 @@ class legacy_controller
 			'address_list'     => ['u' => $address],
 		];
 
-		submit_pm('post', $this->language->lang('INMEMORIUM_PM_SUBJECT'), $data, false);
+		submit_pm('post', $this->language->lang('INMEMORIAM_PM_' . $type . '_SUBJECT'), $data, false);
 	}
 
 	/**

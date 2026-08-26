@@ -1,0 +1,108 @@
+{% include 'ucp_header.html' %}
+
+<h2>{{ lang('UCP_INMEMORIAM_LEGACY') }}</h2>
+
+<form id="inmemoriam_ucp" method="post" action="{{ S_UCP_ACTION }}">
+<div class="panel">
+	<div class="inner">
+
+		<p>{{ lang('UCP_INMEMORIAM_EXPLAIN') }}</p>
+
+		{% if ERROR %}
+			<div class="errorbox"><p>{{ ERROR }}</p></div>
+		{% endif %}
+
+		{% if S_HAS_LEGACY %}
+			<div class="successbox">
+				<p>{{ lang('UCP_INMEMORIAM_CURRENT', LEGACY_DATE) }}</p>
+			</div>
+		{% endif %}
+
+		<fieldset>
+			<dl>
+				<dt><label for="legacy_name">{{ lang('UCP_INMEMORIAM_NAME') }}{{ lang('COLON') }}</label></dt>
+				<dd><input type="text" name="legacy_name" id="legacy_name" maxlength="255" value="{{ LEGACY_NAME }}" class="inputbox"></dd>
+			</dl>
+			<dl>
+				<dt>
+					<label for="legacy_email">{{ lang('UCP_INMEMORIAM_EMAIL') }}{{ lang('COLON') }}</label>
+					<span>{{ lang('UCP_INMEMORIAM_EMAIL_EXPLAIN') }}</span>
+				</dt>
+				<dd><input type="email" name="legacy_email" id="legacy_email" maxlength="100" value="{{ LEGACY_EMAIL }}" class="inputbox"></dd>
+			</dl>
+		</fieldset>
+
+		<fieldset>
+			<legend>{{ lang('UCP_INMEMORIAM_WISH') }}</legend>
+			<p>{{ lang('UCP_INMEMORIAM_WISH_EXPLAIN') }}</p>
+
+			<dl>
+				<dt><label>{{ lang('UCP_INMEMORIAM_WISH_CHOICE') }}{{ lang('COLON') }}</label></dt>
+				<dd>
+					<label>
+						<input type="radio" class="radio" name="deletion_mode" value="now"{% if DELETION_MODE == 'now' %} checked{% endif %}>
+						{{ lang('UCP_INMEMORIAM_WISH_NOW') }}
+					</label><br>
+					<label>
+						<input type="radio" class="radio" name="deletion_mode" value="delay"{% if DELETION_MODE == 'delay' %} checked{% endif %}>
+						{{ lang('UCP_INMEMORIAM_WISH_DELAY') }}
+					</label>
+					<select name="deletion_months">
+						{% for m in [3, 6, 12, 18, 24, 36, 60] %}
+							<option value="{{ m }}"{% if DELETION_MONTHS == m %} selected{% endif %}>{{ lang('UCP_INMEMORIAM_MONTHS', m) }}</option>
+						{% endfor %}
+					</select><br>
+					<label>
+						<input type="radio" class="radio" name="deletion_mode" value="board"{% if DELETION_MODE == 'board' %} checked{% endif %}>
+						{{ lang('UCP_INMEMORIAM_WISH_BOARD') }}
+					</label>
+				</dd>
+			</dl>
+
+			<p class="inmemoriam-hint">{{ lang('UCP_INMEMORIAM_WISH_PRIVACY') }}</p>
+		</fieldset>
+
+		<div class="rules">
+			<div class="inner">
+				<strong>{{ lang('UCP_INMEMORIAM_HOWTO_TITLE') }}</strong>
+				<ol>
+					<li>{{ lang('UCP_INMEMORIAM_HOWTO_1') }}</li>
+					<li>{{ lang('UCP_INMEMORIAM_HOWTO_2') }}</li>
+					<li>{{ lang('UCP_INMEMORIAM_HOWTO_3') }}</li>
+					<li>{{ lang('UCP_INMEMORIAM_HOWTO_4') }}</li>
+				</ol>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<div class="panel">
+	<div class="inner">
+		<fieldset>
+			<dl>
+				<dt>
+					<label for="send_mail">{{ lang('UCP_INMEMORIAM_SEND_MAIL') }}{{ lang('COLON') }}</label>
+					<span>{{ lang('UCP_INMEMORIAM_SEND_MAIL_EXPLAIN') }}</span>
+				</dt>
+				<dd>
+					<label><input type="checkbox" class="checkbox" name="send_mail" id="send_mail" value="1" checked> {{ lang('UCP_INMEMORIAM_SEND_MAIL_YES') }}</label>
+				</dd>
+			</dl>
+		</fieldset>
+
+		<fieldset class="submit-buttons">
+			<input type="submit" name="submit" id="submit" class="button1" value="{{ lang('SUBMIT') }}">
+			{% if S_HAS_LEGACY %}
+				<input type="submit" name="delete" id="delete" class="button2" value="{{ lang('UCP_INMEMORIAM_DELETE') }}" onclick="return confirm('{{ lang('UCP_INMEMORIAM_DELETE_CONFIRM')|e('js') }}');">
+			{% endif %}
+			{% if S_HAS_LEGACY %}
+				<a href="{{ U_SHEET }}" class="button2">{{ lang('UCP_INMEMORIAM_SHEET_BTN') }}</a>
+			{% endif %}
+			{{ S_FORM_TOKEN }}
+		</fieldset>
+	</div>
+</div>
+</form>
+
+{% include 'ucp_footer.html' %}

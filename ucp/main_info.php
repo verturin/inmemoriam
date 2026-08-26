@@ -6,7 +6,7 @@
  * @license GNU General Public License, version 2 (GPL-2.0)
  */
 
-namespace verturin\inmemorium\ucp;
+namespace verturin\inmemoriam\ucp;
 
 if (!defined('IN_PHPBB'))
 {
@@ -18,12 +18,12 @@ class main_info
 	public function module()
 	{
 		return [
-			'filename' => '\verturin\inmemorium\ucp\main_module',
-			'title'    => 'UCP_INMEMORIUM',
+			'filename' => '\verturin\inmemoriam\ucp\main_module',
+			'title'    => 'UCP_INMEMORIAM',
 			'modes'    => [
 				'legacy' => [
-					'title' => 'UCP_INMEMORIUM_LEGACY',
-					'auth'  => 'ext_verturin/inmemorium',
+					'title' => 'UCP_INMEMORIAM_LEGACY',
+					'auth'  => 'ext_verturin/inmemoriam',
 					'cat'   => ['UCP_PROFILE'],
 				],
 			],
